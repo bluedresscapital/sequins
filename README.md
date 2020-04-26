@@ -1,0 +1,2 @@
+# sequins
+bluedresscapital frontend repository
