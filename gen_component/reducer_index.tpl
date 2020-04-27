@@ -1,11 +1,10 @@
 // Auto-Generated from gen_component. DO NOT EDIT MANUALLY
 import { combineReducers } from 'redux'
-import example from './example';
-import landing from './landing';
-
+{% for reducer in reducers%}import {{reducer}} from './{{reducer}}';
+{% endfor %}
 
 const sequinsApp = combineReducers({
-  example, landing, 
+  {% for reducer in reducers%}{{ reducer }}, {% endfor %}
 })
 
 export default sequinsApp
