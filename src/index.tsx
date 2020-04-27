@@ -1,16 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
+import { createStore } from 'redux'
+import { Provider } from "react-redux";
+
 import './index.css';
 import App from './App';
+import sequinsApp from "./reducers";
 import * as serviceWorker from './serviceWorker';
 
+const store = createStore(sequinsApp)
+
 ReactDOM.render(
+  <Provider store={store}>
     <BrowserRouter>
-        <React.StrictMode>
-            <App />
-        </React.StrictMode>
-    </BrowserRouter>,
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    </BrowserRouter>
+  </Provider>,
   document.getElementById('root')
 );
 
