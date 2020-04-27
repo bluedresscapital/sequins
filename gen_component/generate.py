@@ -72,7 +72,8 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
     if args.type == "component":
-        create_component(args.name, args.component_dir)
+        component_name = "{}{}".format(args.name[0].upper(), args.name[1:])
+        create_component(component_name, args.component_dir)
     elif args.type == "redux":
         create_redux(args.name)
     else:

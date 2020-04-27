@@ -4,7 +4,7 @@ import './App.css';
 import Landing from "./components/Landing";
 import Dashboard from "./components/dashboard/Dashboard";
 import NotFound from "./components/NotFound";
-import Test from "./components/Test";
+import Example from "./components/Example";
 
 function App() {
   return (
@@ -12,7 +12,7 @@ function App() {
       <Switch>
         <Route path={"/"} component={Landing} exact />
         <Route path={"/dashboard"} component={Dashboard} exact />
-        <Route path={"/test"} component={Test} exact />
+        <Route path={"/example"} component={Example} exact />
         <Route component={NotFound} />
       </Switch>
     </main>
