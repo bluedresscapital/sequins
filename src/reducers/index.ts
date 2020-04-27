@@ -3,9 +3,9 @@ import { combineReducers } from 'redux'
 import example from './example';
 import landing from './landing';
 
-
 const sequinsApp = combineReducers({
-  example, landing, 
+  example,
+  landing,
 })
 
 export default sequinsApp

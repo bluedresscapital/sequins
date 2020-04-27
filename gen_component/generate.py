@@ -36,14 +36,14 @@ def create_redux(name):
     actions = [action.split(".")[0] for action in os.listdir(ACTIONS_ROOT) if "index" not in action and ".ts" in action]
     with open("./gen_component/action_index.tpl", "r") as tpl:
         t = Template(tpl.read())
-        action_idx = t.render(actions=actions, exports=", ".join(actions))
+        action_idx = t.render(actions=actions, exports="\n".join(["  {},".format(a) for a in actions]))
         with open(os.path.join(ACTIONS_ROOT, "index.ts"), "w") as af:
             af.write(action_idx)
 
     reducers = [reducer.split(".")[0] for reducer in os.listdir(REDUCERS_ROOT) if "index" not in reducer and ".ts" in reducer]
     with open("./gen_component/reducer_index.tpl", "r") as tpl:
         t = Template(tpl.read())
-        reducer_idx = t.render(reducers=reducers)
+        reducer_idx = t.render(reducers=reducers, reducer_list="\n".join(["  {},".format(r) for r in reducers]))
         with open(os.path.join(REDUCERS_ROOT, "index.ts"), "w") as rf:
             rf.write(reducer_idx)
 

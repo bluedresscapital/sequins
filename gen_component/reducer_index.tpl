@@ -2,9 +2,8 @@
 import { combineReducers } from 'redux'
 {% for reducer in reducers%}import {{reducer}} from './{{reducer}}';
 {% endfor %}
-
 const sequinsApp = combineReducers({
-  {% for reducer in reducers%}{{ reducer }}, {% endfor %}
+{{ reducer_list }}
 })
 
 export default sequinsApp
