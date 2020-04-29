@@ -3,19 +3,12 @@ import * as fetchCoattails from '../util/fetchCoattails';
 
 export const LOADED_USER = 'LOADED_USER';
 export const LOGGING_IN = 'LOGGING_IN';
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
-export const REGISTER = 'REGISTER';
 export const LOGGED_OUT = 'LOGGED_OUT';
 
 export function loadUser() {
   return dispatch => {
-    const succCb = ({ username }) => {
-      dispatch({ type: LOADED_USER, username })
-    }
-    const errCb = e => {
-      console.log(e);
-    }
-    return fetchCoattails.post("/auth/user", {}, succCb, errCb)
+    const succCb = ({ username }) => dispatch({ type: LOADED_USER, username })
+    return fetchCoattails.post("/auth/user", {}, succCb)
   }
 }
 
@@ -24,19 +17,13 @@ export function login(username: string, password: string) {
     dispatch({ type: LOGGING_IN });
     let body = JSON.stringify({username, password});
     const succCb = () => dispatch({ type: LOADED_USER, username })
-    const errCb = e => console.log(e)
-    return fetchCoattails.post("/auth/login", { body }, succCb, errCb)
+    return fetchCoattails.post("/auth/login", { body }, succCb)
   }
 }
 
 export function logout() {
   return dispatch => {
-    let headers = {
-      "Content-Type": "application/json",
-    };
-    return fetch("http://127.0.0.1:8080/auth/logout", { headers, method: "POST", credentials: 'include' })
-      .then(res => {
-        dispatch({ type: LOGGED_OUT })
-      })
+    const succCb = () => dispatch({ type: LOGGED_OUT })
+    return fetchCoattails.post("/auth/logout", {}, succCb)
   }
 }

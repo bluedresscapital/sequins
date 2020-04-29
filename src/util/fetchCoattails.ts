@@ -1,6 +1,9 @@
 const COATTAILS_HOSTNAME = process.env.COATTAILS_HOSTNAME ? process.env.COATTAILS_HOSTNAME : "http://127.0.0.1:8080"
 
-export function post(endpoint, initPayload, succCb, errCb) {
+export function post(endpoint: string, initPayload: object, succCb, errCb?) {
+  if (!errCb) {
+    errCb = e => {}
+  }
   let headers = {
     "Content-Type": "application/json",
   };
@@ -9,8 +12,9 @@ export function post(endpoint, initPayload, succCb, errCb) {
     .then(res => {
       if (res.ok) {
         return res.json()
+      } else if (res.status === 401) {
+        return { "status": "unauthorized" }
       }
-      console.log("res: ", res)
       throw Error("internal server error")
     })
     .then(succCb)
