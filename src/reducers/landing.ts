@@ -13,6 +13,6 @@ export default function landing(state=initialState, action) {
     case RESET_NUM:
       return {...state, num: 0}
     default:
-      return initialState
+      return state
   }
 }

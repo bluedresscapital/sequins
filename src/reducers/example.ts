@@ -14,6 +14,6 @@ export default function example(state=initialState, action) {
     case RESET_NUM:
       return {...state, num: 0}
     default:
-      return initialState
+      return state
   }
 }
