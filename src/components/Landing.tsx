@@ -1,36 +1,38 @@
-import React from 'react';
-import {connect} from 'react-redux';
+import React, { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button, ButtonGroup } from '@material-ui/core';
 import { landing } from '../actions';
 
 import BdcContainer from "./common/BdcContainer";
 
-const Landing = props => {
+interface LandingState {
+  landing: any
+}
+
+export default function Landing() {
+  const num = useSelector((state: LandingState) => state.landing.num )
+  const dispatch = useDispatch();
+  const addNum = useCallback(
+    () => dispatch(landing.addNum()),
+    [dispatch]
+  )
+  const subNum = useCallback(
+    () => dispatch(landing.subNum()),
+    [dispatch]
+  )
+  const resetNum = useCallback(
+    () => dispatch(landing.resetNum()),
+    [dispatch]
+  )
   return (
     <BdcContainer>
       <h1>Landing!</h1>
-      <p>{props.landing.num}</p>
+      <p>{num}</p>
       <ButtonGroup variant="contained" color="primary" aria-label="contained primary button group">
-        <Button onClick={props.addNum}>Add</Button>
-        <Button onClick={props.subNum}>Sub</Button>
-        <Button onClick={props.resetNum}>Reset</Button>
+        <Button onClick={addNum}>Add</Button>
+        <Button onClick={subNum}>Sub</Button>
+        <Button onClick={resetNum}>Reset</Button>
       </ButtonGroup>
     </BdcContainer>
   )
 }
-
-const mapStateToProps = state => {
-  return {
-    landing: state.landing,
-  }
-}
-
-const mapDispatchToProps = dispatch => {
-  return {
-    addNum: () => dispatch(landing.addNum()),
-    subNum: () => dispatch(landing.subNum()),
-    resetNum: () => dispatch(landing.resetNum()),
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Landing);
