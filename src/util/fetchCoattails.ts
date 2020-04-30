@@ -10,15 +10,16 @@ export function post(endpoint: string, initPayload: object, succCb, errCb?) {
   let init = Object.assign({ headers, method: "POST", credentials: 'include' }, initPayload)
   return fetch(COATTAILS_HOSTNAME + endpoint, init)
     .then(res => {
-      if (res.ok) {
+      if (res.status === 200) {
         return res.json()
-      } else if (res.status === 401) {
-        return { "status": "unauthorized" }
       }
-      throw Error("internal server error")
+      // return errCb({ status: res.status, msg: "Received non 200 response" })
+      throw Error(res.status + "")
     })
     .then(succCb)
-    .catch(errCb)
+    .catch(e => {
+      errCb(parseInt(e.toString().replace("Error:", "").trim()))
+    })
 }
 
 export function get(endpoint, initPayload, succCb, errCb) {
