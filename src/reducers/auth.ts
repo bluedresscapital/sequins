@@ -2,7 +2,7 @@
 import { ERR_LOGIN, LOADED_USER, LOGGED_OUT } from "../actions/auth";
 
 const initialState = {
-  username: null,
+  username: "",
   err_login_msg: "",
 }
 
@@ -13,7 +13,7 @@ export default function auth(state=initialState, action) {
     case LOADED_USER:
       return {...state, username: action.username, err_login_msg: "" }
     case LOGGED_OUT:
-      return initialState
+      return Object.assign(initialState, { username: null })
     default:
       return state
   }

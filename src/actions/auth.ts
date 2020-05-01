@@ -9,7 +9,8 @@ export const ERR_LOGIN = 'ERR_LOGIN';
 export function loadUser() {
   return dispatch => {
     const succCb = ({ username }) => dispatch({ type: LOADED_USER, username })
-    return coattails.post("/auth/user", {}, succCb)
+    const errCb = () => dispatch({ type: LOADED_USER, username: null })
+    return coattails.post("/auth/user", {}, succCb, errCb)
   }
 }
 
