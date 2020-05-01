@@ -4,8 +4,7 @@ import { Divider, Grid, List, ListItem, ListItemText, Paper } from '@material-ui
 
 export default function Brokerages() {
   return (
-    <BdcContainer>
-      <h1>Brokerages</h1>
+    <BdcContainer title={"Brokerages"}>
       <Grid container spacing={3} >
         <Grid item xs={12} sm={12} md={3}>
           <Paper elevation={2}>

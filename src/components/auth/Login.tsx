@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core';
 import { WithWidth } from '@material-ui/core/withWidth';
 
-import { auth } from '../../actions';
+import { auth } from '../../redux/actions';
 import BdcUnauthorizedContainer from "../common/BdcUnauthorizedContainer";
 import BdcPrimaryButton from "../common/BdcPrimaryButton";
 

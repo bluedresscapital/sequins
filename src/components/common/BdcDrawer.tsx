@@ -13,7 +13,7 @@ import AccountBalanceIcon from "@material-ui/icons/AccountBalance";
 import SettingsIcon from "@material-ui/icons/Settings";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
-import {auth} from "../../actions";
+import {auth} from "../../redux/actions";
 import {useDispatch, useSelector} from "react-redux";
 import { Link, useLocation } from 'react-router-dom';
 import {DARKER_BLUE} from "../../Theme";
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme: Theme) =>
       color: DARKER_BLUE,
     },
     unselected: {
-    }
+    },
   })
 )
 

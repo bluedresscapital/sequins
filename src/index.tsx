@@ -7,7 +7,7 @@ import { Provider } from "react-redux";
 
 import './index.css';
 import App from './App';
-import sequinsApp from "./reducers";
+import sequinsApp from "./redux/reducers";
 import * as serviceWorker from './serviceWorker';
 
 const store =  createStore(sequinsApp, applyMiddleware(thunk));

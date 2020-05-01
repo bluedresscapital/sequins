@@ -5,7 +5,7 @@ import BdcContainer from "../common/BdcContainer";
 class Dashboard extends Component {
   render() {
     return (
-      <BdcContainer>
+      <BdcContainer title={"Dashboard"}>
         <h1>Dashboard.</h1>
       </BdcContainer>
     )

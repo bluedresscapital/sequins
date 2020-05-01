@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, ButtonGroup } from '@material-ui/core';
-import { landing } from '../actions';
+import { landing } from '../redux/actions';
 
 import BdcContainer from "./common/BdcContainer";
 
@@ -25,8 +25,7 @@ export default function Landing() {
     [dispatch]
   )
   return (
-    <BdcContainer>
-      <h1>Landing!</h1>
+    <BdcContainer title={"Landing"}>
       <p>{num}</p>
       <ButtonGroup variant="contained" color="primary" aria-label="contained primary button group">
         <Button onClick={addNum}>Add</Button>

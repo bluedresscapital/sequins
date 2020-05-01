@@ -3,11 +3,13 @@ import { combineReducers } from 'redux'
 import example from './example';
 import landing from './landing';
 import auth from './auth';
+import portfolio from "./portfolio";
 
 const sequinsApp = combineReducers({
   example,
   landing,
   auth,
+  portfolio,
 })
 
 export default sequinsApp

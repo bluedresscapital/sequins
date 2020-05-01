@@ -7,6 +7,7 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import {LIGHTER_BLUE} from "../../Theme";
+import {useSelector} from "react-redux";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -43,28 +44,35 @@ function a11yProps(index: any) {
 
 const useStyles = makeStyles((theme: Theme) => ({
   appBar: {
-    backgroundColor: LIGHTER_BLUE,
+    color: 'black',
+    backgroundColor: "white",
   },
 }));
 
 const BdcTabs = withStyles({
   indicator: {
-    backgroundColor: 'white',
+    backgroundColor: LIGHTER_BLUE,
   },
 })(Tabs);
+
+interface ViewPortfoliosState {
+  portfolio: any
+}
 
 export default function ViewPortfolios() {
   const [value, setValue] = React.useState(0);
   const classes = useStyles();
+  const portfolios = useSelector((state: ViewPortfoliosState) => state.portfolio.portfolios)
+  const loadingPorts = useSelector((state: ViewPortfoliosState) => state.portfolio.loading)
+  console.log(portfolios, loadingPorts)
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
   };
 
   return (
-    <BdcContainer>
+    <BdcContainer title={"View Portfolios"}>
       <AppBar position="static" className={classes.appBar}>
-        <h1 style={{marginLeft: "40px"}}>View Portfolios</h1>
         <BdcTabs value={value} onChange={handleChange} aria-label="simple tabs example" >
           <Tab label="Item One" {...a11yProps(0)} />
           <Tab label="Item Two" {...a11yProps(1)} />

@@ -8,6 +8,21 @@ export function post(endpoint: string, initPayload: object, succCb, errCb?) {
     "Content-Type": "application/json",
   };
   let init = Object.assign({ headers, method: "POST", credentials: 'include' }, initPayload)
+  return fetchWrapper(endpoint, init, succCb, errCb)
+}
+
+export function get(endpoint, initPayload, succCb, errCb?) {
+  if (!errCb) {
+    errCb = e => {}
+  }
+  let headers = {
+    "Content-Type": "application/json",
+  }
+  let init = Object.assign({ headers, method: "GET", credentials: 'include' }, initPayload)
+  return fetchWrapper(endpoint, init, succCb, errCb)
+}
+
+function fetchWrapper(endpoint, init, succCb, errCb) {
   return fetch(COATTAILS_HOSTNAME + endpoint, init)
     .then(res => {
       if (res.status === 200) {
@@ -20,8 +35,4 @@ export function post(endpoint: string, initPayload: object, succCb, errCb?) {
     .catch(e => {
       errCb(parseInt(e.toString().replace("Error:", "").trim()))
     })
-}
-
-export function get(endpoint, initPayload, succCb, errCb) {
-  console.log("hello", COATTAILS_HOSTNAME)
 }

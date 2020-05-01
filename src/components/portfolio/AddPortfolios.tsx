@@ -11,8 +11,8 @@ export default function AddPortfolios() {
   const [saveAs, setSaveAs] = React.useState("web")
   const [portName, setPortName] = React.useState("")
   return (
-    <BdcContainer>
-      <Card>
+    <BdcContainer title={"Add Portfolio"}>
+      <Card style={{margin: "25px"}}>
         <CardContent>
         <h1>Add New Portfolio</h1>
         <form noValidate autoComplete="off" onSubmit={e => e.preventDefault()}>

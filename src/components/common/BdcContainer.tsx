@@ -16,12 +16,12 @@ import { fade, makeStyles, useTheme, Theme, createStyles } from '@material-ui/co
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { PRIMARY_BLUE } from '../../Theme';
+import {LIGHTER_BLUE, PRIMARY_BLUE} from '../../Theme';
 import {useSelector} from "react-redux";
 import { Redirect } from 'react-router-dom';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import {auth} from "../../actions";
+import {auth} from "../../redux/actions";
 import {useDispatch} from "react-redux";
 import BdcDrawer from "./BdcDrawer";
 import {Link} from 'react-router-dom';
@@ -41,6 +41,10 @@ const useStyles = makeStyles((theme: Theme) =>
         width: drawerWidth,
         flexShrink: 0,
       },
+      borderRight: "0px",
+    },
+    drawerChild: {
+      borderRight: "0px",
     },
     appBar: {
       backgroundColor: PRIMARY_BLUE,
@@ -53,9 +57,12 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.up('sm')]: {
         display: 'none',
       },
+      marginLeft: "8px",
     },
     // necessary for content to be below app bar
-    toolbar: theme.mixins.toolbar,
+    toolbar: Object.assign(theme.mixins.toolbar, {
+      padding: "0px",
+    }),
     drawerPaper: {
       [theme.breakpoints.up('xs')]: {
         marginTop: "64px"
@@ -63,6 +70,8 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.down('xs')]: {
         marginTop: "56px",
       },
+      boxShadow: "0px 1px 7px #999",
+      borderRight: "0px",
       width: drawerWidth,
     },
     content: {
@@ -113,6 +122,20 @@ const useStyles = makeStyles((theme: Theme) =>
     homeLink: {
       color: 'white',
       textDecoration: 'none',
+    },
+    banner: {
+      backgroundColor: LIGHTER_BLUE,
+      [theme.breakpoints.up('xs')]: {
+        height: "64px"
+      },
+      [theme.breakpoints.down('xs')]: {
+        height: "56px",
+      },
+      padding: "15px",
+      color: "white",
+      display: "inline-block",
+      minWidth: "240px",
+      marginRight: "16px",
     }
   }),
 );
@@ -124,6 +147,7 @@ interface Props {
    */
   window?: () => Window;
   children?: any
+  title: string
 }
 
 interface BdcContainerState {
@@ -162,6 +186,13 @@ export default function BdcContainer(props: Props) {
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar} elevation={0}>
         <Toolbar>
+          <Hidden xsDown>
+            <div className={classes.banner}>
+              <Typography variant={"h6"} style={{margin: "0px"}}>
+                <Link to={"/"} style={{color: "white", textDecoration: "none"}}>Blue Dress Capital</Link>
+              </Typography>
+            </div>
+          </Hidden>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -172,9 +203,7 @@ export default function BdcContainer(props: Props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            <Link to={"/"} className={classes.homeLink}>
-              Blue Dress Capital
-            </Link>
+            {props.title}
           </Typography>
           <Typography className={classes.title}></Typography>
           <div className={classes.search}>
@@ -206,10 +235,12 @@ export default function BdcContainer(props: Props) {
             onClose={handleDrawerToggle}
             classes={{
               paper: classes.drawerPaper,
+              paperAnchorDockedLeft: classes.drawerPaper,
             }}
             ModalProps={{
               keepMounted: true, // Better open performance on mobile.
             }}
+            className={classes.drawerChild}
           >
             <BdcDrawer />
           </Drawer>
@@ -221,6 +252,7 @@ export default function BdcContainer(props: Props) {
             }}
             variant="permanent"
             open
+            className={classes.drawerChild}
           >
             <BdcDrawer />
           </Drawer>
@@ -228,7 +260,7 @@ export default function BdcContainer(props: Props) {
       </nav>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <div>
+        <div style={{padding: "16px"}}>
           {props.children}
         </div>
       </main>
