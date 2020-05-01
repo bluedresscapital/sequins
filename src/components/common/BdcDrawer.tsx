@@ -15,7 +15,8 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 import {auth} from "../../actions";
 import {useDispatch, useSelector} from "react-redux";
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import {DARKER_BLUE} from "../../Theme";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -23,6 +24,11 @@ const useStyles = makeStyles((theme: Theme) =>
       textAlign: "center",
       padding: "24px"
     },
+    selected: {
+      color: DARKER_BLUE,
+    },
+    unselected: {
+    }
   })
 )
 
@@ -38,6 +44,7 @@ export default function BdcDrawer() {
     [dispatch]
   );
   const username = useSelector((state:BdcDrawerState) => state.auth.username);
+  const { pathname } = useLocation();
 
   return (
     <div>
@@ -50,45 +57,33 @@ export default function BdcDrawer() {
       </div>
       <Divider variant={"middle"} />
       <List>
-        <ListItem button component={Link} to={"/dashboard"}>
-          <ListItemIcon>
-            <DashboardIcon />
-          </ListItemIcon>
-          <ListItemText>Dashboard</ListItemText>
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon>
-            <ExploreIcon />
-          </ListItemIcon>
-          <ListItemText>Explore</ListItemText>
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon>
-            <DonutLargeIcon />
-          </ListItemIcon>
-          <ListItemText>View Portfolios</ListItemText>
-        </ListItem>
+        {[
+          { link: "/dashboard", icon: <DashboardIcon />, text: "Dashboard"},
+          { link: "/", icon: <ExploreIcon />, text: "Explore"},
+          { link: "/portfolios/view", icon: <DonutLargeIcon/>, text: "View Portfolios"},
+        ].map(({ link, icon, text}, i) => (
+          <ListItem button component={Link} to={link} className={pathname===link ? classes.selected : classes.unselected} key={i}>
+            <ListItemIcon className={pathname===link ? classes.selected : classes.unselected}>
+              {icon}
+            </ListItemIcon>
+            <ListItemText>{text}</ListItemText>
+          </ListItem>
+          ))}
       </List>
       <Divider variant={"middle"}/>
       <List>
-        <ListItem button>
-          <ListItemIcon>
-            <AddIcon />
-          </ListItemIcon>
-          <ListItemText>Add Portfolio</ListItemText>
-        </ListItem>
-        <ListItem button component={Link} to={"/account"}>
-          <ListItemIcon>
-            <AccountBalanceIcon />
-          </ListItemIcon>
-          <ListItemText>Brokerages</ListItemText>
-        </ListItem>
-        <ListItem button component={Link} to={"/profile"}>
-          <ListItemIcon>
-            <SettingsIcon/>
-          </ListItemIcon>
-          <ListItemText>Settings</ListItemText>
-        </ListItem>
+        {[
+          { link: "/portfolios/add", icon: <AddIcon />, text: "Add Portfolio"},
+          { link: "/account", icon: <AccountBalanceIcon/>, text: "Brokerages"},
+          { link: "/profile", icon: <SettingsIcon/>, text: "Settings"},
+        ].map(({ link, icon, text}, i) => (
+          <ListItem button component={Link} to={link} className={pathname===link ? classes.selected : classes.unselected} key={i}>
+            <ListItemIcon className={pathname===link ? classes.selected : classes.unselected}>
+              {icon}
+            </ListItemIcon>
+            <ListItemText>{text}</ListItemText>
+          </ListItem>
+        ))}
         <ListItem button onClick={logout}>
           <ListItemIcon>
             <ExitToAppIcon />
