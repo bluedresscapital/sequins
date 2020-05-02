@@ -16,7 +16,7 @@ import { fade, makeStyles, useTheme, Theme, createStyles } from '@material-ui/co
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import {LIGHTER_BLUE, PRIMARY_BLUE} from '../../Theme';
+import {DARKER_BLUE, DARKEST_BLUE, LIGHTER_BLUE, PRIMARY_BLUE} from '../../Theme';
 import {useSelector} from "react-redux";
 import { Redirect } from 'react-router-dom';
 import {auth} from "../../redux/actions";
@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme: Theme) =>
       borderRight: "0px",
     },
     appBar: {
-      backgroundColor: PRIMARY_BLUE,
+      backgroundColor: DARKEST_BLUE,
       [theme.breakpoints.up('sm')]: {
         width: "100%",
       },
@@ -119,7 +119,7 @@ const useStyles = makeStyles((theme: Theme) =>
       textDecoration: 'none',
     },
     banner: {
-      backgroundColor: LIGHTER_BLUE,
+      backgroundColor: DARKER_BLUE,
       [theme.breakpoints.up('xs')]: {
         height: "64px"
       },
@@ -161,7 +161,6 @@ export default function BdcContainer(props: Props) {
     [dispatch]
   );
 
-
   const username = useSelector((state:BdcContainerState) => state.auth.username);
   if (username == null) {
     return (<Redirect to={"/welcome"} />)
@@ -182,7 +181,18 @@ export default function BdcContainer(props: Props) {
           <Hidden xsDown>
             <div className={classes.banner}>
               <Typography variant={"h6"} style={{margin: "0px"}}>
-                <Link to={"/"} style={{color: "white", textDecoration: "none"}}>Blue Dress Capital</Link>
+                <Link to={"/"} style={{color: "white", textDecoration: "none"}}>
+                    <img
+                      style={{
+                        maxHeight: "30px",
+                        backgroundColor: "rgb(255,255,255,0.3)",
+                        borderRadius: "30%",
+                        marginRight: "10px",
+                      }}
+                      src={"https://avatars3.githubusercontent.com/u/64178086?s=400&u=8e16687c519c5304d079b2182701af5bc30e3db6&v=4"}
+                    />
+                  Blue Dress Capital
+                </Link>
               </Typography>
             </div>
           </Hidden>
@@ -253,7 +263,7 @@ export default function BdcContainer(props: Props) {
       </nav>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <div style={{padding: "16px"}}>
+        <div>
           {props.children}
         </div>
       </main>

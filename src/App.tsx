@@ -9,7 +9,7 @@ import Login from "./components/auth/Login";
 import NotFound from "./components/NotFound";
 import Profile from "./components/Profile";
 
-import {auth, portfolio} from "./redux/actions";
+import {auth, portfolio, transfer} from "./redux/actions";
 import { useDispatch } from "react-redux";
 import AddPortfolios from "./components/portfolio/AddPortfolios";
 import ViewPortfoliosContainer from "./components/portfolio/ViewPortfoliosContainer";
@@ -24,9 +24,14 @@ export default function App() {
     () => dispatch(portfolio.loadPortfolios()),
     [dispatch]
   )
+  const loadTransfers = useCallback(
+    () => dispatch(transfer.loadTransfers()),
+    [dispatch]
+  )
   useEffect(() => {
     loadUser()
     loadPorts()
+    loadTransfers()
     // eslint-disable-next-line
   }, [])
   return (

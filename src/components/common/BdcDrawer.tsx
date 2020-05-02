@@ -16,13 +16,14 @@ import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 import {auth} from "../../redux/actions";
 import {useDispatch, useSelector} from "react-redux";
 import { Link, useLocation } from 'react-router-dom';
-import {DARKER_BLUE} from "../../Theme";
+import {DARKER_BLUE, HINT_OF_BLUE} from "../../Theme";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     user: {
+      backgroundColor: HINT_OF_BLUE,
       textAlign: "center",
-      padding: "24px"
+      padding: "24px",
     },
     selected: {
       color: DARKER_BLUE,
@@ -55,7 +56,6 @@ export default function BdcDrawer() {
             Welcome, {username}!
           </ListItemText>}
       </div>
-      <Divider variant={"middle"} />
       <List>
         {[
           { link: "/dashboard", icon: <DashboardIcon />, text: "Dashboard"},

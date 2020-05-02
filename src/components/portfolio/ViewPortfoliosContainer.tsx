@@ -41,7 +41,6 @@ export default function ViewPortfoliosContainer() {
   return (
     <BdcContainer title={"View Portfolios"}>
       <BdcLoadingBackdrop open={loadingPorts} />
-
       <AppBar position="static" className={classes.appBar}>
         <Tabs value={selectedPort}>
           <Tab label={"All"} value={-1} onClick={() => selectPort(-1)}/>

@@ -3,10 +3,12 @@ import * as example from './example';
 import * as landing from './landing';
 import * as auth from './auth';
 import * as portfolio from './portfolio';
+import * as transfer from './transfer';
 
 export {
   example,
   landing,
   auth,
   portfolio,
+  transfer,
 }
