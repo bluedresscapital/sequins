@@ -19,12 +19,11 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import {LIGHTER_BLUE, PRIMARY_BLUE} from '../../Theme';
 import {useSelector} from "react-redux";
 import { Redirect } from 'react-router-dom';
-import Backdrop from '@material-ui/core/Backdrop';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import {auth} from "../../redux/actions";
 import {useDispatch} from "react-redux";
 import BdcDrawer from "./BdcDrawer";
 import {Link} from 'react-router-dom';
+import BdcLoadingBackdrop from "./BdcLoadingBackdrop";
 
 const drawerWidth = 240;
 
@@ -115,10 +114,6 @@ const useStyles = makeStyles((theme: Theme) =>
     signout: {
       color: 'white'
     },
-    backdrop: {
-      zIndex: theme.zIndex.drawer + 1,
-      color: '#fff',
-    },
     homeLink: {
       color: 'white',
       textDecoration: 'none',
@@ -180,9 +175,7 @@ export default function BdcContainer(props: Props) {
 
   return (
     <div className={classes.root}>
-      <Backdrop className={classes.backdrop} open={username===""} >
-        <CircularProgress color="inherit" />
-      </Backdrop>
+      <BdcLoadingBackdrop open={username===""} />
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar} elevation={0}>
         <Toolbar>

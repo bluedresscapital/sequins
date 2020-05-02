@@ -12,7 +12,7 @@ import Profile from "./components/Profile";
 import {auth, portfolio} from "./redux/actions";
 import { useDispatch } from "react-redux";
 import AddPortfolios from "./components/portfolio/AddPortfolios";
-import ViewPortfolios from "./components/portfolio/ViewPortfolios";
+import ViewPortfoliosContainer from "./components/portfolio/ViewPortfoliosContainer";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -35,7 +35,7 @@ export default function App() {
         <Route path={"/"} component={Landing} exact />
         <Route path={"/account"} component={Brokerages} exact />
         <Route path={"/dashboard"} component={Dashboard} exact />
-        <Route path={"/portfolios/view"} component={ViewPortfolios} exact />
+        <Route path={"/portfolios/view"} component={ViewPortfoliosContainer} exact />
         <Route path={"/portfolios/add"} component={AddPortfolios} exact />
         <Route path={"/login"} component={Login} exact />
         <Route path={"/welcome"} component={Login} exact />
