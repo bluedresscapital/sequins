@@ -7,6 +7,10 @@ import {
   ERR_UPSERTING_TRANSFER,
 } from "../actions/transfer";
 
+import {
+  LOGGED_OUT
+} from "../actions/auth";
+
 const initialState = {
   transfers: [] as any[],
   loading: false,
@@ -25,6 +29,8 @@ export default function transfer(state=initialState, action) {
       return {...state, upserting: false, transfers: action.transfers}
     case ERR_UPSERTING_TRANSFER:
       return {...state, upserting: false } // TODO maybe include err msg?
+    case LOGGED_OUT:
+      return initialState
     default:
       return state
   }

@@ -8,6 +8,7 @@ import {
   SELECT_PORT,
   RESET_REDIRECT,
 } from "../actions/portfolio";
+import {LOGGED_OUT} from "../actions/auth";
 
 const initialState = {
   portfolios : [] as any[],
@@ -36,6 +37,8 @@ export default function portfolio(state=initialState, action) {
       return {...state, redirect: false}
     case SELECT_PORT:
       return {...state, selected_port: action.id }
+    case LOGGED_OUT:
+      return initialState
     default:
       return state
   }

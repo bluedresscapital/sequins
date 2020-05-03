@@ -18,20 +18,9 @@ export default function App() {
   const dispatch = useDispatch();
   const loadUser = useCallback(
     () => dispatch(auth.loadUser()),
-    [dispatch]
-  )
-  const loadPorts = useCallback(
-    () => dispatch(portfolio.loadPortfolios()),
-    [dispatch]
-  )
-  const loadTransfers = useCallback(
-    () => dispatch(transfer.loadTransfers()),
-    [dispatch]
-  )
+    [dispatch])
   useEffect(() => {
     loadUser()
-    loadPorts()
-    loadTransfers()
     // eslint-disable-next-line
   }, [])
   return (
