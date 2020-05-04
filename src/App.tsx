@@ -9,7 +9,7 @@ import Login from "./components/auth/Login";
 import NotFound from "./components/NotFound";
 import Profile from "./components/Profile";
 
-import {auth, portfolio, transfer} from "./redux/actions";
+import {auth} from "./redux/actions";
 import { useDispatch } from "react-redux";
 import AddPortfolios from "./components/portfolio/AddPortfolios";
 import ViewPortfoliosContainer from "./components/portfolio/ViewPortfoliosContainer";

@@ -2,18 +2,23 @@
 import * as coattails from '../util/coattails';
 import {loadTransfers} from "./transfer";
 import {loadPortfolios} from "./portfolio";
+import {loadOrders} from "./order";
 
 export const LOADED_USER = 'LOADED_USER';
 export const LOGGING_IN = 'LOGGING_IN';
 export const LOGGED_OUT = 'LOGGED_OUT';
 export const ERR_LOGIN = 'ERR_LOGIN';
 
+function loadUserData(dispatch) {
+  loadPortfolios()(dispatch);
+  loadTransfers()(dispatch);
+  loadOrders()(dispatch);
+}
 
 export function loadUser() {
   return dispatch => {
     const succCb = ({ username }) => {
-      loadPortfolios()(dispatch);
-      loadTransfers()(dispatch);
+      loadUserData(dispatch)
       dispatch({ type: LOADED_USER, username })
     }
     const errCb = () => dispatch({ type: LOADED_USER, username: null })
@@ -26,8 +31,7 @@ export function login(username: string, password: string) {
     dispatch({ type: LOGGING_IN });
     let body = JSON.stringify({username, password});
     const succCb = () => {
-      loadPortfolios()(dispatch);
-      loadTransfers()(dispatch);
+      loadUserData(dispatch)
       dispatch({ type: LOADED_USER, username })
     }
     const errCb = e => {

@@ -16,7 +16,7 @@ import { fade, makeStyles, useTheme, Theme, createStyles } from '@material-ui/co
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import {DARKER_BLUE, DARKEST_BLUE, LIGHTER_BLUE, PRIMARY_BLUE} from '../../Theme';
+import {DARKER_BLUE, DARKEST_BLUE} from '../../Theme';
 import {useSelector} from "react-redux";
 import { Redirect } from 'react-router-dom';
 import {auth} from "../../redux/actions";
@@ -189,6 +189,7 @@ export default function BdcContainer(props: Props) {
                         borderRadius: "30%",
                         marginRight: "10px",
                       }}
+                      alt={"user"}
                       src={"https://avatars3.githubusercontent.com/u/64178086?s=400&u=8e16687c519c5304d079b2182701af5bc30e3db6&v=4"}
                     />
                   Blue Dress Capital

@@ -4,6 +4,7 @@ import * as landing from './landing';
 import * as auth from './auth';
 import * as portfolio from './portfolio';
 import * as transfer from './transfer';
+import * as order from './order';
 
 export {
   example,
@@ -11,4 +12,5 @@ export {
   auth,
   portfolio,
   transfer,
+  order,
 }

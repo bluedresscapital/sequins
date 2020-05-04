@@ -29,14 +29,15 @@ interface TransferRow {
 }
 
 interface TransferTableState {
-  portfolio: any
+  portfolio: any,
+  transfer: any,
 }
 
 export default function TransfersTable(props: TransfersTableProps) {
   const dispatch = useDispatch();
   const selectedPort = useSelector((state: TransferTableState) => state.portfolio.selected_port)
   const loadingPorts = useSelector((state: TransferTableState) => state.portfolio.loading)
-  const upsertingTransfer = useSelector((state: TransferTableState) => state.portfolio.upserting)
+  const upsertingTransfer = useSelector((state: TransferTableState) => state.transfer.upserting)
 
   const upsertTransfer = useCallback(
     (t) => dispatch(transfer.upsertTransfer(t)), [dispatch])
@@ -87,12 +88,11 @@ export default function TransfersTable(props: TransfersTableProps) {
             })
             resolve();
           }),
-        onRowUpdate: ({ uid, date, amount, action, type }) =>
+        onRowUpdate: ({ port_id, uid, date, amount, action, type }) =>
           new Promise((resolve) => {
-            console.log(uid);
             upsertTransfer({
               uid,
-              port_id: selectedPort,
+              port_id,
               amount,
               is_deposit: action === "DEPOSIT",
               manually_added:  type === "MANUAL",
@@ -101,7 +101,7 @@ export default function TransfersTable(props: TransfersTableProps) {
             resolve();
           }),
         onRowDelete: ({uid}) =>
-          new Promise((resolve, reject) => {
+          new Promise((resolve) => {
             deleteTransfer(uid)
             resolve();
           })
