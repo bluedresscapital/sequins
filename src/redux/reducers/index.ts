@@ -6,6 +6,7 @@ import auth from './auth';
 import portfolio from "./portfolio";
 import transfer from "./transfer";
 import order from './order';
+import tda from './tda';
 
 const sequinsApp = combineReducers({
   example,
@@ -14,6 +15,7 @@ const sequinsApp = combineReducers({
   portfolio,
   transfer,
   order,
+  tda,
 })
 
 export default sequinsApp

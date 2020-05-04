@@ -6,7 +6,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import {useDispatch, useSelector} from "react-redux";
 import ViewPortfolio from "./ViewPortfolio";
-import {portfolio} from "../../redux/actions";
+import {portfolio, order, transfer} from "../../redux/actions";
 import BdcLoadingBackdrop from "../common/BdcLoadingBackdrop";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -36,6 +36,9 @@ export default function ViewPortfoliosContainer() {
   )
   useEffect(() => {
     dispatch(portfolio.resetRedirect())
+    dispatch(portfolio.loadPortfolios())
+    dispatch(transfer.loadTransfers())
+    dispatch(order.loadOrders())
     // eslint-disable-next-line
   }, [])
   return (

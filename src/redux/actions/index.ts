@@ -5,6 +5,7 @@ import * as auth from './auth';
 import * as portfolio from './portfolio';
 import * as transfer from './transfer';
 import * as order from './order';
+import * as tda from './tda';
 
 export {
   example,
@@ -13,4 +14,5 @@ export {
   portfolio,
   transfer,
   order,
+  tda,
 }
