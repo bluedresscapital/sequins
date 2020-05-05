@@ -43,7 +43,7 @@ export default function OrdersTable(props: OrdersTableProps) {
   const upsertOrder = useCallback(
     (t) => dispatch(order.upsertOrder(t)), [dispatch])
   const deleteOrder = useCallback(
-    (uid) => dispatch(order.deleteOrder(uid)), [dispatch])
+    (uid, port_id) => dispatch(order.deleteOrder(uid, port_id)), [dispatch])
 
   let order_columns = [
     { title: 'Date', field: 'date' , editComponent: props => (
@@ -115,9 +115,9 @@ export default function OrdersTable(props: OrdersTableProps) {
             })
             resolve();
           }),
-        onRowDelete: ({uid}) =>
+        onRowDelete: ({uid, port_id}) =>
           new Promise((resolve) => {
-            deleteOrder(uid)
+            deleteOrder(uid, port_id)
             resolve();
           })
       }}

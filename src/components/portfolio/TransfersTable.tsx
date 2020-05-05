@@ -42,7 +42,7 @@ export default function TransfersTable(props: TransfersTableProps) {
   const upsertTransfer = useCallback(
     (t) => dispatch(transfer.upsertTransfer(t)), [dispatch])
   const deleteTransfer = useCallback(
-    (uid) => dispatch(transfer.deleteTransfer(uid)), [dispatch])
+    (uid, port_id) => dispatch(transfer.deleteTransfer(uid, port_id)), [dispatch])
 
   let transfer_columns = [
     { title: 'Date', field: 'date', editComponent: props => (
@@ -100,9 +100,9 @@ export default function TransfersTable(props: TransfersTableProps) {
             })
             resolve();
           }),
-        onRowDelete: ({uid}) =>
+        onRowDelete: ({port_id, uid}) =>
           new Promise((resolve) => {
-            deleteTransfer(uid)
+            deleteTransfer(uid, port_id)
             resolve();
           })
       }}

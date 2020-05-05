@@ -22,9 +22,9 @@ const initialState = {
 export default function portfolio(state=initialState, action) {
   switch (action.type) {
     case ADDED_PORT:
-      let current_ports = state.portfolios;
-      current_ports.push(action.portfolio)
-      return {...state, adding_port: false, portfolios: current_ports, selected_port: action.portfolio.id, redirect: true}
+      // NOTE(ma): this is kinda hacky, but we basically assume the latest portfolio added is at the end :D
+      // this is due to our auto incrementing id backend
+      return {...state, adding_port: false, portfolios: action.portfolios, selected_port: action.portfolios[action.portfolios.length-1].id, redirect: true}
     case ADDING_PORT:
       return {...state, adding_port: true}
     case ERR_ADDING_PORT:

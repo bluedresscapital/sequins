@@ -16,6 +16,9 @@ interface AddPortfoliosState {
 function AddPortfolios() {
   const [saveAs, setSaveAs] = React.useState("paper")
   const [portName, setPortName] = React.useState("")
+  const [tdCode, setTDCode] = React.useState("")
+  const [tdClientId, setTDClientId] = React.useState("")
+
   const savingPort = useSelector((state: AddPortfoliosState) => state.portfolio.adding_port)
   const errAddingPort = useSelector((state: AddPortfoliosState) => state.portfolio.err_adding_port)
   const redirect = useSelector((state: AddPortfoliosState) => state.portfolio.redirect)
@@ -23,7 +26,7 @@ function AddPortfolios() {
   const dispatch = useDispatch();
   const savePortfolio = e => {
     e.preventDefault();
-    dispatch(portfolio.addPortfolio(portName, saveAs))
+    dispatch(portfolio.addPortfolio(portName, saveAs, tdCode, tdClientId))
   }
 
   if (redirect) {
@@ -33,68 +36,91 @@ function AddPortfolios() {
     <BdcContainer title={"Add Portfolio"}>
       <Card style={{margin: "25px"}}>
         <CardContent>
-        <h1>Add New Portfolio</h1>
-        <form noValidate autoComplete="off" onSubmit={savePortfolio}>
-          <FormControl error={errAddingPort}>
-          <TextField
-            id="standard-basic"
-            label="Portfolio Name"
-            margin={"normal"}
-            variant={"outlined"}
-            onChange={e => setPortName(e.target.value)}
-            value={portName}
-          />
-            {errAddingPort && <FormHelperText>Please use a unique portfolio name</FormHelperText>}
-          <div>
-            <FormControlLabel
-              control={
-                <Checkbox color={"primary"}
-                          checked={saveAs=== "paper"}
-                          onChange={() => {setSaveAs("paper")}}
+          <h1>Add New Portfolio</h1>
+          <form noValidate autoComplete="off" onSubmit={savePortfolio}>
+            <FormControl error={errAddingPort}>
+              <TextField
+                id="standard-basic"
+                label="Portfolio Name"
+                margin={"normal"}
+                variant={"outlined"}
+                onChange={e => setPortName(e.target.value)}
+                value={portName}
+              />
+              {errAddingPort && <FormHelperText>Please use a unique portfolio name</FormHelperText>}
+              <div>
+                <FormControlLabel
+                  control={
+                    <Checkbox color={"primary"}
+                              checked={saveAs=== "paper"}
+                              onChange={() => {setSaveAs("paper")}}
+                    />
+                  }
+                  label={"Save as Paper Trading Portfolio (default if nothing else selected)"}
                 />
-              }
-              label={"Save as Paper Trading Portfolio (default if nothing else selected)"}
-            />
-          </div>
-          <div>
-            <FormControlLabel
-              control={
-                <Checkbox color={"primary"}
-                          checked={saveAs=== "rh"}
-                          onChange={() => {setSaveAs(saveAs === "rh" ? "paper" : "rh")}}
-                />
-              }
-              label={"Save as RH Portfolio"}
-            />
-          </div>
-          <div>
-            <FormControlLabel
-              control={
-                <Checkbox color={"primary"}
-                          checked={saveAs=== "tda"}
-                          onChange={() => {setSaveAs(saveAs === "tda" ? "paper" : "tda")}}
-                />
-              }
-              label={"Save as TD Portfolio"}
-            />
-          </div>
-          <div style={{position: 'relative', display: 'inline-block'}}>
-            <BdcPrimaryButton
-              type={"submit"}
-              disabled={false}
-            >Save Portfolio</BdcPrimaryButton>
+              </div>
 
-            {savingPort && <CircularProgress size={24} style={{
-              color: green[500],
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              marginTop: -12,
-              marginLeft: -12,
-            }}/> }
-          </div>
-          </FormControl>
-        </form>
+              <div>
+                <FormControlLabel
+                  control={
+                    <Checkbox color={"primary"}
+                              checked={saveAs=== "tda"}
+                              onChange={() => {setSaveAs(saveAs === "tda" ? "paper" : "tda")}}
+                    />
+                  }
+                  label={"Save as TD Portfolio"}
+                />
+              </div>
+              {saveAs==="tda" && <div>
+                  <TextField
+                      id="standard-basic"
+                      label="TD Client ID"
+                      margin={"normal"}
+                      variant={"outlined"}
+                      onChange={e => setTDClientId(e.target.value)}
+                      value={tdClientId}
+                  />
+                  <br />
+                  <TextField
+                      id="standard-basic"
+                      label="TD Auth Code"
+                      margin={"normal"}
+                      variant={"outlined"}
+                      onChange={e => setTDCode(e.target.value)}
+                      value={tdCode}
+                  />
+
+              </div>}
+
+              <div>
+                <FormControlLabel
+                  control={
+                    <Checkbox color={"primary"}
+                              checked={saveAs=== "rh"}
+                              onChange={() => {setSaveAs(saveAs === "rh" ? "paper" : "rh")}}
+                              disabled={true}
+                    />
+                  }
+                  label={"Save as RH Portfolio"}
+                />
+              </div>
+              <div style={{position: 'relative', display: 'inline-block'}}>
+                <BdcPrimaryButton
+                  type={"submit"}
+                  disabled={portName==="" || (saveAs==="tda" && (tdCode==="" || tdClientId===""))}
+                >Save Portfolio</BdcPrimaryButton>
+
+                {savingPort && <CircularProgress size={24} style={{
+                  color: green[500],
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  marginTop: -12,
+                  marginLeft: -12,
+                }}/> }
+              </div>
+            </FormControl>
+          </form>
         </CardContent>
       </Card>
     </BdcContainer>

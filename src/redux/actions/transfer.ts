@@ -42,10 +42,10 @@ export function upsertTransfer(transfer: TransferRequest) {
   }
 }
 
-export function deleteTransfer(uid: string) {
+export function deleteTransfer(uid: string, port_id: number) {
   return dispatch => {
     dispatch({type: UPSERTING_TRANSFER})
-    let body = JSON.stringify({ uid })
+    let body = JSON.stringify({ uid, port_id })
     const succCb = transfers => dispatch({ type: UPSERTED_TRANSFER, transfers })
     return coattails.post("/auth/transfer/delete", {body}, succCb)
   }

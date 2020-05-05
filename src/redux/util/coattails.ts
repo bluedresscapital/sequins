@@ -33,6 +33,7 @@ function fetchWrapper(endpoint, init, succCb, errCb) {
     })
     .then(succCb)
     .catch(e => {
+      console.log("ERROR: ", e)
       errCb(parseInt(e.toString().replace("Error:", "").trim()))
     })
 }

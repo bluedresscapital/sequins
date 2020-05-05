@@ -29,10 +29,10 @@ export function upsertOrder(order) {
   }
 }
 
-export function deleteOrder(uid: string) {
+export function deleteOrder(uid: string, port_id: number) {
   return dispatch => {
     dispatch({type: UPSERTING_ORDER})
-    let body = JSON.stringify({ uid })
+    let body = JSON.stringify({ uid, port_id })
     const succCb = orders => dispatch({ type: UPSERTED_ORDER, orders })
     return coattails.post("/auth/order/delete", {body}, succCb)
   }

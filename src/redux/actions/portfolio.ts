@@ -29,12 +29,22 @@ export function selectPort(id) {
   }
 }
 
-export function addPortfolio(name, type) {
+export function addPortfolio(name, type, tdCode, tdClientId) {
   return dispatch => {
     dispatch({type: ADDING_PORT})
-    let body = JSON.stringify({name, type});
-    const succCb = portfolio => dispatch({ type: ADDED_PORT, portfolio })
-    const errCb = e => dispatch({ type: ERR_ADDING_PORT, error: e })
-    return coattails.post("/auth/portfolio/create", {body}, succCb, errCb)
+    if (type==='tda') {
+      let body = JSON.stringify({name, code: tdCode, client_id: tdClientId})
+      const succCb = portfolios => dispatch({ type: ADDED_PORT, portfolios })
+      return coattails.post("/auth/tda/portfolio/create", {body}, succCb)
+    } else {
+      let body = JSON.stringify({name, type});
+      const succCb = portfolios => dispatch({ type: ADDED_PORT, portfolios })
+      const errCb = e => {
+        console.log("ERR", e)
+        dispatch({ type: ERR_ADDING_PORT, error: e })
+      }
+      return coattails.post("/auth/portfolio/create", {body}, succCb, errCb)
+    }
+
   }
 }
