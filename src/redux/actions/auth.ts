@@ -6,6 +6,10 @@ export const LOGGING_IN = 'LOGGING_IN';
 export const LOGGED_OUT = 'LOGGED_OUT';
 export const ERR_LOGIN = 'ERR_LOGIN';
 
+export const REGISTERING = 'REGISTERING';
+export const REGSITERED = 'REGISTERED';
+export const ERR_REGISTERING = 'ERR_REGISTERING'
+
 
 export function loadUser() {
   return dispatch => {
@@ -32,6 +36,24 @@ export function login(username: string, password: string) {
       }
     }
     return coattails.post("/auth/login", { body }, succCb, errCb)
+  }
+}
+
+export function register(username: string, password: string) {
+  return dispatch => {
+    dispatch({ type: REGISTERING });
+    let body = JSON.stringify({username, password});
+    const succCb = () => {
+      dispatch({ type: LOADED_USER, username })
+    }
+    const errCb = e => {
+      if (e === 401) {
+        dispatch({ type: ERR_REGISTERING, msg: "Invalid login credentials" })
+      } else {
+        dispatch({ type: ERR_REGISTERING, msg: "Unknown error in logging in. Status code: " + e })
+      }
+    }
+    return coattails.post("/auth/register", { body }, succCb, errCb)
   }
 }
 

@@ -8,6 +8,7 @@ import Landing from "./components/Landing";
 import Login from "./components/auth/Login";
 import NotFound from "./components/NotFound";
 import Profile from "./components/Profile";
+import Register from "./components/auth/Register";
 
 import {auth} from "./redux/actions";
 import { useDispatch } from "react-redux";
@@ -32,6 +33,7 @@ export default function App() {
         <Route path={"/portfolios/view"} component={ViewPortfoliosContainer} exact />
         <Route path={"/portfolios/add"} component={AddPortfolios} exact />
         <Route path={"/login"} component={Login} exact />
+        <Route path={"/register"} component={Register} exact />
         <Route path={"/welcome"} component={Login} exact />
         <Route path={"/profile"} component={Profile} exact />
         <Route path={"/example"} component={Example} exact />

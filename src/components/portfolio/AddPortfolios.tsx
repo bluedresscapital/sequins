@@ -18,6 +18,7 @@ function AddPortfolios() {
   const [portName, setPortName] = React.useState("")
   const [tdCode, setTDCode] = React.useState("")
   const [tdClientId, setTDClientId] = React.useState("")
+  const [tdAccNum, setTDAccNum] = React.useState("")
 
   const savingPort = useSelector((state: AddPortfoliosState) => state.portfolio.adding_port)
   const errAddingPort = useSelector((state: AddPortfoliosState) => state.portfolio.err_adding_port)
@@ -26,7 +27,7 @@ function AddPortfolios() {
   const dispatch = useDispatch();
   const savePortfolio = e => {
     e.preventDefault();
-    dispatch(portfolio.addPortfolio(portName, saveAs, tdCode, tdClientId))
+    dispatch(portfolio.addPortfolio(portName, saveAs, tdCode, tdClientId, tdAccNum))
   }
 
   if (redirect) {
@@ -40,7 +41,6 @@ function AddPortfolios() {
           <form noValidate autoComplete="off" onSubmit={savePortfolio}>
             <FormControl error={errAddingPort}>
               <TextField
-                id="standard-basic"
                 label="Portfolio Name"
                 margin={"normal"}
                 variant={"outlined"}
@@ -73,7 +73,14 @@ function AddPortfolios() {
               </div>
               {saveAs==="tda" && <div>
                   <TextField
-                      id="standard-basic"
+                      label="TD Account Number"
+                      margin={"normal"}
+                      variant={"outlined"}
+                      onChange={e => setTDAccNum(e.target.value)}
+                      value={tdAccNum}
+                  />
+                  <br />
+                <TextField
                       label="TD Client ID"
                       margin={"normal"}
                       variant={"outlined"}
@@ -82,13 +89,12 @@ function AddPortfolios() {
                   />
                   <br />
                   <TextField
-                      id="standard-basic"
                       label="TD Auth Code"
                       margin={"normal"}
                       variant={"outlined"}
                       onChange={e => setTDCode(e.target.value)}
                       value={tdCode}
-                  />
+                      />
 
               </div>}
 

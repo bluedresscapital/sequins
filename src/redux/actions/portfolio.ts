@@ -29,11 +29,11 @@ export function selectPort(id) {
   }
 }
 
-export function addPortfolio(name, type, tdCode, tdClientId) {
+export function addPortfolio(name, type, tdCode, tdClientId, tdAccNum) {
   return dispatch => {
     dispatch({type: ADDING_PORT})
     if (type==='tda') {
-      let body = JSON.stringify({name, code: tdCode, client_id: tdClientId})
+      let body = JSON.stringify({name, code: tdCode, client_id: tdClientId, account_num: tdAccNum})
       const succCb = portfolios => dispatch({ type: ADDED_PORT, portfolios })
       return coattails.post("/auth/tda/portfolio/create", {body}, succCb)
     } else {
