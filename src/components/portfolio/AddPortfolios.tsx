@@ -17,7 +17,6 @@ function AddPortfolios() {
   const [saveAs, setSaveAs] = React.useState("paper")
   const [portName, setPortName] = React.useState("")
   const [tdCode, setTDCode] = React.useState("")
-  const [tdClientId, setTDClientId] = React.useState("")
   const [tdAccNum, setTDAccNum] = React.useState("")
 
   const savingPort = useSelector((state: AddPortfoliosState) => state.portfolio.adding_port)
@@ -27,7 +26,7 @@ function AddPortfolios() {
   const dispatch = useDispatch();
   const savePortfolio = e => {
     e.preventDefault();
-    dispatch(portfolio.addPortfolio(portName, saveAs, tdCode, tdClientId, tdAccNum))
+    dispatch(portfolio.addPortfolio(portName, saveAs, tdCode, tdAccNum))
   }
 
   if (redirect) {
@@ -80,14 +79,6 @@ function AddPortfolios() {
                       value={tdAccNum}
                   />
                   <br />
-                <TextField
-                      label="TD Client ID"
-                      margin={"normal"}
-                      variant={"outlined"}
-                      onChange={e => setTDClientId(e.target.value)}
-                      value={tdClientId}
-                  />
-                  <br />
                   <TextField
                       label="TD Auth Code"
                       margin={"normal"}
@@ -113,7 +104,7 @@ function AddPortfolios() {
               <div style={{position: 'relative', display: 'inline-block'}}>
                 <BdcPrimaryButton
                   type={"submit"}
-                  disabled={portName==="" || (saveAs==="tda" && (tdCode==="" || tdClientId===""))}
+                  disabled={portName==="" || (saveAs==="tda" && (tdCode===""))}
                 >Save Portfolio</BdcPrimaryButton>
 
                 {savingPort && <CircularProgress size={24} style={{
