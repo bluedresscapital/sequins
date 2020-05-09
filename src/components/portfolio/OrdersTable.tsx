@@ -148,7 +148,11 @@ export default function OrdersTable(props: OrdersTableProps) {
             return (<Icon>refresh</Icon>);
           },
           tooltip: 'Refresh orders data',
-          onClick: () => reloadOrder(selectedPort),
+          onClick: () => {
+            if (!reloadingOrder) {
+              reloadOrder(selectedPort)
+            }
+          },
           isFreeAction: true
         }
       ]}

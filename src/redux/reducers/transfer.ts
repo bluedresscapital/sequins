@@ -5,6 +5,8 @@ import {
   UPSERTED_TRANSFER,
   UPSERTING_TRANSFER,
   ERR_UPSERTING_TRANSFER,
+  RELOADED_TRANSFERS,
+  RELOADING_TRANSFERS,
 } from "../actions/transfer";
 
 import {
@@ -15,6 +17,7 @@ const initialState = {
   transfers: [] as any[],
   loading: false,
   upserting: false,
+  reloading: false,
 }
 
 export default function transfer(state=initialState, action) {
@@ -29,6 +32,10 @@ export default function transfer(state=initialState, action) {
       return {...state, upserting: false, transfers: action.transfers}
     case ERR_UPSERTING_TRANSFER:
       return {...state, upserting: false } // TODO maybe include err msg?
+    case RELOADING_TRANSFERS:
+      return {...state, reloading: true}
+    case RELOADED_TRANSFERS:
+      return {...state, reloading: false, transfers: action.transfers}
     case LOGGED_OUT:
       return initialState
     default:

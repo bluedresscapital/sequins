@@ -5,6 +5,7 @@ import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers"
 import DateFnsUtils from "@date-io/date-fns";
 import {useDispatch, useSelector} from "react-redux";
 import {transfer} from "../../redux/actions";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 interface TransferData {
   amount: string;
@@ -38,11 +39,14 @@ export default function TransfersTable(props: TransfersTableProps) {
   const selectedPort = useSelector((state: TransferTableState) => state.portfolio.selected_port)
   const loadingPorts = useSelector((state: TransferTableState) => state.portfolio.loading)
   const upsertingTransfer = useSelector((state: TransferTableState) => state.transfer.upserting)
+  const reloadingTransfer = useSelector((state: TransferTableState) => state.transfer.reloading)
 
   const upsertTransfer = useCallback(
     (t) => dispatch(transfer.upsertTransfer(t)), [dispatch])
   const deleteTransfer = useCallback(
     (uid, port_id) => dispatch(transfer.deleteTransfer(uid, port_id)), [dispatch])
+  const reloadTransfer = useCallback(
+    (port_id) => dispatch(transfer.reloadTransfer(port_id)), [dispatch])
 
   let transfer_columns = [
     { title: 'Date', field: 'date', editComponent: props => (
@@ -61,11 +65,14 @@ export default function TransfersTable(props: TransfersTableProps) {
     { title: 'Type', field: 'type', initialEditValue: 'MANUAL', editable: 'never' as const},
   ]
 
-  let transfer_data: TransferRow[] = props.transfers.map(({uid, port_id, date, is_deposit, amount, manually_added }) => {
-    let action = is_deposit ? "DEPOSIT" : "WITHDRAW";
-    let type = manually_added ? "MANUAL" : "SCRAPED";
-    return {uid, port_id, date, action, amount: parseFloat(amount), type}
-  })
+  let transfer_data: TransferRow[] = props.transfers
+    .map(({uid, port_id, date, is_deposit, amount, manually_added }) => {
+      let action = is_deposit ? "DEPOSIT" : "WITHDRAW";
+      let type = manually_added ? "MANUAL" : "SCRAPED";
+      return {uid, port_id, date, action, amount: parseFloat(amount), type}
+    })
+    .sort((a, b) => a.date.localeCompare(b.date))
+    .reverse()
 
   return (
     <MaterialTable
@@ -106,17 +113,22 @@ export default function TransfersTable(props: TransfersTableProps) {
             resolve();
           })
       }}
-      actions={[
+      actions={selectedPort === -1 ? [] : [
         {
           icon: () => {
-            if (true) {
-              return (<Icon>refresh</Icon>);
+            if (reloadingTransfer ) {
+              return (<CircularProgress
+                style={{width: "24px", height: "24px"}}
+                color="secondary"
+              />);
             }
-            return (<i className={"small spinner loading icon"} />);
+            return (<Icon>refresh</Icon>);
           },
           tooltip: 'Refresh transfers data',
-          onClick: (e, d) => {
-            console.log(e, d);
+          onClick: () => {
+            if (!reloadingTransfer) {
+              reloadTransfer(selectedPort)
+            }
           },
           isFreeAction: true
         }

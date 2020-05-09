@@ -7,6 +7,8 @@ export const LOADED_TRANSFERS = 'LOADED_TRANSFERS';
 export const UPSERTING_TRANSFER = 'UPSERTING_TRANSFER';
 export const UPSERTED_TRANSFER = 'UPSERTED_TRANSFER';
 export const ERR_UPSERTING_TRANSFER = 'ERR_ADDING_TRANSFER';
+export const RELOADING_TRANSFERS = 'RELOADING_TRANSFERS';
+export const RELOADED_TRANSFERS = 'RELOADED_TRANSFERS';
 
 export function loadTransfers() {
   return dispatch => {
@@ -48,5 +50,14 @@ export function deleteTransfer(uid: string, port_id: number) {
     let body = JSON.stringify({ uid, port_id })
     const succCb = transfers => dispatch({ type: UPSERTED_TRANSFER, transfers })
     return coattails.post("/auth/transfer/delete", {body}, succCb)
+  }
+}
+
+export function reloadTransfer(port_id: number) {
+  return dispatch => {
+    dispatch({type: RELOADING_TRANSFERS })
+    let body = JSON.stringify({ port_id })
+    const succCb = transfers => dispatch({ type: RELOADED_TRANSFERS, transfers })
+    return coattails.post("/auth/transfer/reload", {body}, succCb)
   }
 }
