@@ -35,7 +35,7 @@ export default function transfer(state=initialState, action) {
     case RELOADING_TRANSFERS:
       return {...state, reloading: true}
     case RELOADED_TRANSFERS:
-      return {...state, reloading: false, transfers: action.transfers}
+      return {...state, reloading: false, transfers: action.payload }
     case LOGGED_OUT:
       return initialState
     default:

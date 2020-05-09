@@ -59,7 +59,10 @@ export function register(username: string, password: string) {
 
 export function logout() {
   return dispatch => {
-    const succCb = () => dispatch({ type: LOGGED_OUT })
+    const succCb = () => {
+      coattails.closeSock()
+      dispatch({ type: LOGGED_OUT })
+    }
     return coattails.post("/auth/logout", {}, succCb)
   }
 }

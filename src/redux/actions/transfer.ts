@@ -57,7 +57,7 @@ export function reloadTransfer(port_id: number) {
   return dispatch => {
     dispatch({type: RELOADING_TRANSFERS })
     let body = JSON.stringify({ port_id })
-    const succCb = transfers => dispatch({ type: RELOADED_TRANSFERS, transfers })
+    const succCb = () => {}
     return coattails.post("/auth/transfer/reload", {body}, succCb)
   }
 }

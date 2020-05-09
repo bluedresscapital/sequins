@@ -3,7 +3,7 @@
 * Edit this file WITH EXTREME CAUTION :D
 * */
 
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
@@ -19,7 +19,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import {DARKER_BLUE, DARKEST_BLUE} from '../../Theme';
 import {useSelector} from "react-redux";
 import { Redirect } from 'react-router-dom';
-import {auth} from "../../redux/actions";
+import {auth, sock} from "../../redux/actions";
 import {useDispatch} from "react-redux";
 import BdcDrawer from "./BdcDrawer";
 import {Link} from 'react-router-dom';
@@ -146,7 +146,8 @@ interface Props {
 }
 
 interface BdcContainerState {
-  auth: any
+  auth: any,
+  sock: any,
 }
 
 export default function BdcContainer(props: Props) {
@@ -160,8 +161,15 @@ export default function BdcContainer(props: Props) {
     () => dispatch(auth.logout()),
     [dispatch]
   );
-
   const username = useSelector((state:BdcContainerState) => state.auth.username);
+  const connecting = useSelector((state:BdcContainerState) => state.sock.connecting);
+  const connected = useSelector((state:BdcContainerState) => state.sock.connected);
+
+  useEffect(() => {
+    dispatch(sock.connect(username, connecting, connected))
+    // eslint-disable-next-line
+  }, [])
+
   if (username == null) {
     return (<Redirect to={"/welcome"} />)
   }
@@ -169,9 +177,7 @@ export default function BdcContainer(props: Props) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-
   const container = window !== undefined ? () => window().document.body : undefined;
-
   return (
     <div className={classes.root}>
       <BdcLoadingBackdrop open={username===""} />

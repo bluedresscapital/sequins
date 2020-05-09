@@ -23,7 +23,7 @@ export function get(endpoint, initPayload, succCb, errCb?) {
 }
 
 function fetchWrapper(endpoint, init, succCb, errCb) {
-  return fetch(COATTAILS_HOSTNAME + endpoint, init)
+  return fetch("http://" + COATTAILS_HOSTNAME + endpoint, init)
     .then(res => {
       if (res.status === 200) {
         return res.json()
@@ -33,7 +33,18 @@ function fetchWrapper(endpoint, init, succCb, errCb) {
     })
     .then(succCb)
     .catch(e => {
-      console.log("ERROR: ", e)
       errCb(parseInt(e.toString().replace("Error:", "").trim()))
     })
+}
+
+let socket;
+
+export function dialSock(onopenCb: any, onmsgCb: any) {
+  socket = new WebSocket("ws://" + COATTAILS_HOSTNAME + "/auth/websocket")
+  socket.onopen = onopenCb
+  socket.onmessage = e => onmsgCb(e.data)
+}
+
+export function closeSock() {
+  socket.close()
 }

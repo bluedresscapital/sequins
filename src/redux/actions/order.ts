@@ -44,7 +44,7 @@ export function reloadOrder(port_id: number) {
   return dispatch => {
     dispatch({type: RELOADING_ORDERS })
     let body = JSON.stringify({ port_id })
-    const succCb = orders => dispatch({ type: RELOADED_ORDERS, orders })
+    const succCb = () => {}
     return coattails.post("/auth/order/reload", {body}, succCb)
   }
 }

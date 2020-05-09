@@ -37,7 +37,7 @@ export default function order(state=initialState, action) {
     case RELOADING_ORDERS:
       return {...state, reloading: true}
     case RELOADED_ORDERS:
-      return {...state, reloading: false, orders: action.orders}
+      return {...state, reloading: false, orders: action.payload }
     default:
       return state
   }

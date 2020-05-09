@@ -20,10 +20,10 @@ export default function ViewPortfolio() {
   return (
     <div style={{padding: "32px"}}>
       <Grid container spacing={4}>
-        <Grid item xs={12} sm={12} md={12} lg={12} xl={6}>
+        <Grid item xs={12} sm={12} md={12} lg={12} xl={5}>
           <TransfersTable transfers={filtered_transfers}/>
         </Grid>
-        <Grid item xs={12} sm={12} md={12} lg={12} xl={6}>
+        <Grid item xs={12} sm={12} md={12} lg={12} xl={7}>
           <OrdersTable orders={filtered_orders} />
         </Grid>
       </Grid>
