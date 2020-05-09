@@ -6,6 +6,7 @@ import DateFnsUtils from "@date-io/date-fns";
 import {useDispatch, useSelector} from "react-redux";
 import {order} from "../../redux/actions";
 import Input from "@material-ui/core/Input";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 interface OrderData {
   amount: string;
@@ -39,11 +40,14 @@ export default function OrdersTable(props: OrdersTableProps) {
   const selectedPort = useSelector((state: OrderTableState) => state.portfolio.selected_port)
   const loadingPorts = useSelector((state: OrderTableState) => state.portfolio.loading)
   const upsertingOrder = useSelector((state: OrderTableState) => state.order.upserting)
+  const reloadingOrder = useSelector((state: OrderTableState) => state.order.reloading)
 
   const upsertOrder = useCallback(
     (t) => dispatch(order.upsertOrder(t)), [dispatch])
   const deleteOrder = useCallback(
     (uid, port_id) => dispatch(order.deleteOrder(uid, port_id)), [dispatch])
+  const reloadOrder = useCallback(
+    (port_id) => dispatch(order.reloadOrder(port_id)), [dispatch])
 
   let order_columns = [
     { title: 'Date', field: 'date' , editComponent: props => (
@@ -70,12 +74,23 @@ export default function OrdersTable(props: OrdersTableProps) {
     { title: 'Type', field: 'type', editable: 'never' as const, initialEditValue: 'MANUAL' }
   ];
 
-  let order_data = props.orders.map(({date, is_buy, manually_added, port_id, quantity, stock, uid, value}) => {
-    let action = is_buy ? "BUY" : "SELL";
-    let type = manually_added ? "MANUAL" : "SCRAPED";
-
-    return {uid, port_id, date, stock, action, quantity: parseFloat(quantity), price: parseFloat(value), value: parseFloat(quantity) * parseFloat(value), type }
-  })
+  let order_data = props.orders
+    .map(({date, is_buy, manually_added, port_id, quantity, stock, uid, value}) => {
+      let action = is_buy ? "BUY" : "SELL";
+      let type = manually_added ? "MANUAL" : "SCRAPED";
+      return {
+        uid,
+        port_id,
+        date,
+        stock,
+        action,
+        quantity: parseFloat(quantity),
+        price: parseFloat(value),
+        value: parseFloat(quantity) * parseFloat(value), type
+      }
+    })
+    .sort((a, b) => a.date.localeCompare(b.date))
+    .reverse()
 
   return (
     <MaterialTable
@@ -121,18 +136,19 @@ export default function OrdersTable(props: OrdersTableProps) {
             resolve();
           })
       }}
-      actions={[
+      actions={selectedPort === -1 ? [] : [
         {
           icon: () => {
-            if (true) {
-              return (<Icon>refresh</Icon>);
+            if (reloadingOrder) {
+              return (<CircularProgress
+                style={{width: "24px", height: "24px"}}
+                color="secondary"
+              />);
             }
-            return (<i className={"small spinner loading icon"} />);
+            return (<Icon>refresh</Icon>);
           },
           tooltip: 'Refresh orders data',
-          onClick: (e, d) => {
-            console.log(e, d);
-          },
+          onClick: () => reloadOrder(selectedPort),
           isFreeAction: true
         }
       ]}

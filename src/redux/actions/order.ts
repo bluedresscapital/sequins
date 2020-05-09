@@ -7,6 +7,8 @@ export const LOADED_ORDERS = 'LOADED_ORDERS';
 export const UPSERTING_ORDER = 'UPSERTING_ORDER';
 export const UPSERTED_ORDER = 'UPSERTED_ORDER';
 export const ERR_UPSERTING_ORDER = 'ERR_ADDING_ORDER';
+export const RELOADING_ORDERS = 'RELOADING_ORDERS';
+export const RELOADED_ORDERS = 'RELOADED_ORDERS';
 
 export function loadOrders() {
   return dispatch => {
@@ -35,5 +37,14 @@ export function deleteOrder(uid: string, port_id: number) {
     let body = JSON.stringify({ uid, port_id })
     const succCb = orders => dispatch({ type: UPSERTED_ORDER, orders })
     return coattails.post("/auth/order/delete", {body}, succCb)
+  }
+}
+
+export function reloadOrder(port_id: number) {
+  return dispatch => {
+    dispatch({type: RELOADING_ORDERS })
+    let body = JSON.stringify({ port_id })
+    const succCb = orders => dispatch({ type: RELOADED_ORDERS, orders })
+    return coattails.post("/auth/order/reload", {body}, succCb)
   }
 }

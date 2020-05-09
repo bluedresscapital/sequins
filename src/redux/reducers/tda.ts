@@ -8,8 +8,6 @@ import {LOGGED_OUT} from "../actions/auth";
 const initialState = {
   accounts: [] as any[],
   loading: false,
-  // adding_brokerage: false,
-  // err_adding_brokerage: false,
 }
 
 export default function tda(state=initialState, action) {

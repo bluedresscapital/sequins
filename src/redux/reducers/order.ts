@@ -5,6 +5,8 @@ import {
   UPSERTED_ORDER,
   UPSERTING_ORDER,
   ERR_UPSERTING_ORDER,
+  RELOADING_ORDERS,
+  RELOADED_ORDERS,
 } from "../actions/order";
 
 import {
@@ -15,6 +17,7 @@ const initialState = {
   orders: [] as any[],
   loading: false,
   upserting: false,
+  reloading: false,
 }
 
 export default function order(state=initialState, action) {
@@ -31,6 +34,10 @@ export default function order(state=initialState, action) {
       return {...state, upserting: false } // TODO maybe include err msg?
     case LOGGED_OUT:
       return initialState
+    case RELOADING_ORDERS:
+      return {...state, reloading: true}
+    case RELOADED_ORDERS:
+      return {...state, reloading: false, orders: action.orders}
     default:
       return state
   }
