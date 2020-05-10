@@ -112,7 +112,7 @@ export default function OrdersTable(props: OrdersTableProps) {
               value: price,
               port_id: selectedPort,
               manually_added: true,
-              date: date ? date : new Date().toISOString
+              date: date !== undefined ? date : new Date().toISOString()
             })
             resolve();
           }),
@@ -126,7 +126,7 @@ export default function OrdersTable(props: OrdersTableProps) {
               stock,
               value: price,
               manually_added: type==="MANUAL",
-              date: date ? date : new Date().toISOString
+              date: date ? date : new Date().toISOString()
             })
             resolve();
           }),

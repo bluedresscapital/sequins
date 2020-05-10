@@ -91,7 +91,7 @@ export default function TransfersTable(props: TransfersTableProps) {
               amount,
               is_deposit: action === "DEPOSIT",
               manually_added: true,
-              date: date ? date : new Date().toISOString
+              date: date ? date : new Date().toISOString()
             })
             resolve();
           }),
@@ -103,7 +103,7 @@ export default function TransfersTable(props: TransfersTableProps) {
               amount,
               is_deposit: action === "DEPOSIT",
               manually_added:  type === "MANUAL",
-              date: date ? date : new Date().toISOString
+              date: date ? date : new Date().toISOString()
             })
             resolve();
           }),
