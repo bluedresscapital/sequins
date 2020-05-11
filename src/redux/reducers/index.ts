@@ -8,6 +8,7 @@ import transfer from "./transfer";
 import order from './order';
 import tda from './tda';
 import sock from "./sock";
+import position from "./position";
 
 const sequinsApp = combineReducers({
   example,
@@ -18,6 +19,7 @@ const sequinsApp = combineReducers({
   order,
   tda,
   sock,
+  position,
 })
 
 export default sequinsApp

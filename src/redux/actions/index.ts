@@ -7,6 +7,7 @@ import * as transfer from './transfer';
 import * as order from './order';
 import * as tda from './tda';
 import * as sock from './sock';
+import * as position from './position';
 
 export {
   example,
@@ -17,4 +18,5 @@ export {
   order,
   tda,
   sock,
+  position,
 }
