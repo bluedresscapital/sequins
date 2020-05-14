@@ -7,7 +7,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import ExploreIcon from "@material-ui/icons/Explore";
-import DonutLargeIcon from "@material-ui/icons/DonutLarge";
+import ShowChartIcon from '@material-ui/icons/ShowChart';
 import AddIcon from "@material-ui/icons/Add";
 import AccountBalanceIcon from "@material-ui/icons/AccountBalance";
 import SettingsIcon from "@material-ui/icons/Settings";
@@ -58,9 +58,9 @@ export default function BdcDrawer() {
       </div>
       <List>
         {[
-          { link: "/dashboard", icon: <DashboardIcon />, text: "Dashboard"},
+          { link: "/dashboard", icon: <ShowChartIcon />, text: "Dashboard"},
           { link: "/", icon: <ExploreIcon />, text: "Explore"},
-          { link: "/portfolios/view", icon: <DonutLargeIcon/>, text: "View Portfolios"},
+          { link: "/portfolios/view", icon: <DashboardIcon />, text: "View Portfolios"},
         ].map(({ link, icon, text}, i) => (
           <ListItem button component={Link} to={link} className={pathname===link ? classes.selected : classes.unselected} key={i}>
             <ListItemIcon className={pathname===link ? classes.selected : classes.unselected}>
