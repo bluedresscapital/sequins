@@ -7,52 +7,34 @@ import {
   CardContent,
   Grid,
 } from '@material-ui/core';
+import {portfolio} from '../../redux/actions';
+import {useDispatch, useSelector} from "react-redux";
+
+interface DashboardState {
+  portfolio: any
+}
 
 export default function Dashboard() {
-  let data =[
-    {
-      "id": "SPY",
-      "data": [
-        {
-          "x": "2020-05-02",
-          "y": 220,
-        },
-        {
-          "x": "2020-05-03",
-          "y": 220,
-        },
-        {
-          "x": "2020-05-04",
-          "y": 225,
-        },
-        {
-          "x": "2020-05-05",
-          "y": 223,
-        }
-      ]
-    },
-    {
-      "id": "BDC",
-      "data": [
-        {
-          "x": "2020-05-02",
-          "y": 150,
-        },
-        {
-          "x": "2020-05-03",
-          "y": 240,
-        },
-        {
-          "x": "2020-05-04",
-          "y": 230,
-        },
-        {
-          "x": "2020-05-05",
-          "y": 235,
-        }
-      ]
-    }
-  ]
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    dispatch(portfolio.loadPortfolios())
+    dispatch(portfolio.loadPortHistories())
+    // eslint-disable-next-line
+  }, [])
+
+  const portfolios = useSelector((state: DashboardState) => state.portfolio.portfolios)
+  const portHistories = useSelector((state: DashboardState) => state.portfolio.port_histories)
+  const data: any[] = [];
+  for (const portId in portHistories) {
+    const series = {
+      "name": portfolios.find(p => parseInt(p.id) === parseInt(portId)).name,
+      "data": portHistories[portId].map(({date, cum_change}) => ({
+        "x": date,
+        "y": (cum_change - 1) * 100,
+      }))
+    };
+    data.push(series)
+  }
   return (
     <BdcContainer title={"Dashboard"}>
       <div style={{padding: "32px"}}>
@@ -61,7 +43,7 @@ export default function Dashboard() {
             <Card>
               <CardContent>
                 <TimeSeries
-                  title={"SPY"}
+                  title={"Portfolio Performance"}
                   data={data}
                 />
               </CardContent>

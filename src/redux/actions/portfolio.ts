@@ -8,6 +8,8 @@ export const ADDING_PORT = 'ADDING_PORT';
 export const ADDED_PORT = 'ADDED_PORT';
 export const ERR_ADDING_PORT = 'ERR_ADDING_PORT';
 export const RESET_REDIRECT = 'RESET_REDIRECT;'
+export const LOADING_PORT_HISTORIES = 'LOADING_PORT_HISTORIES';
+export const LOADED_PORT_HISTORIES = 'LOADED_PORT_HISTORIES';
 
 export function loadPortfolios() {
   return dispatch => {
@@ -45,6 +47,13 @@ export function addPortfolio(name, type, tdCode, tdAccNum) {
       }
       return coattails.post("/auth/portfolio/create", {body}, succCb, errCb)
     }
+  }
+}
 
+export function loadPortHistories() {
+  return dispatch => {
+    dispatch({ type: LOADING_PORT_HISTORIES })
+    const succCb = histories => dispatch({ type: LOADED_PORT_HISTORIES, payload: histories })
+    return coattails.get("/auth/portfolio/history", {}, succCb)
   }
 }

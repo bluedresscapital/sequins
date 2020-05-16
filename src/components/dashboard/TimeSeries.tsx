@@ -10,23 +10,7 @@ interface TimeSeriesProps {
 
 export default function TimeSeries(props: TimeSeriesProps) {
   let state = {
-    series: [{
-      name: "wei",
-      data: [
-        { x: "2020-05-03", y: 420 },
-        { x: "2020-05-04", y: 425 },
-        { x: "2020-05-05", y: 423 },
-        { x: "2020-05-06", y: 430 },
-      ]
-    }, {
-      name: "SPY",
-      data: [
-        { x: "2020-05-03", y: 450 },
-        { x: "2020-05-04", y: 410 },
-        { x: "2020-05-05", y: 439 },
-        { x: "2020-05-06", y: 440 },
-      ]
-    }],
+    series: props.data,
     options: {
       chart: {
         id: 'area-datetime',
@@ -53,6 +37,11 @@ export default function TimeSeries(props: TimeSeriesProps) {
       xaxis: {
         type: 'datetime',
         tickAmount: 6,
+      },
+      yaxis: {
+        labels: {
+          formatter: value => value.toFixed(2) + "%"
+        }
       },
       tooltip: {
         x: {

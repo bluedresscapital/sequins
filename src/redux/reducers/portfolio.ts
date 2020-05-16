@@ -7,6 +7,7 @@ import {
   LOADED_PORTS,
   SELECT_PORT,
   RESET_REDIRECT,
+  LOADED_PORT_HISTORIES,
 } from "../actions/portfolio";
 import {LOGGED_OUT} from "../actions/auth";
 
@@ -17,6 +18,7 @@ const initialState = {
   adding_port: false,
   err_adding_port: false,
   redirect: false,
+  port_histories: {},
 }
 
 export default function portfolio(state=initialState, action) {
@@ -33,6 +35,8 @@ export default function portfolio(state=initialState, action) {
       return {...state, loading: true }
     case LOADED_PORTS:
       return {...state, loading: false, portfolios: action.portfolios}
+    case LOADED_PORT_HISTORIES:
+      return {...state, port_histories: action.payload}
     case RESET_REDIRECT:
       return {...state, redirect: false}
     case SELECT_PORT:
