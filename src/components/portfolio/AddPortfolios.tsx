@@ -18,6 +18,7 @@ function AddPortfolios() {
   const [portName, setPortName] = React.useState("")
   const [tdCode, setTDCode] = React.useState("")
   const [tdAccNum, setTDAccNum] = React.useState("")
+  const [rhRefreshTok, setRhRefreshTok] = React.useState("")
 
   const savingPort = useSelector((state: AddPortfoliosState) => state.portfolio.adding_port)
   const errAddingPort = useSelector((state: AddPortfoliosState) => state.portfolio.err_adding_port)
@@ -26,7 +27,7 @@ function AddPortfolios() {
   const dispatch = useDispatch();
   const savePortfolio = e => {
     e.preventDefault();
-    dispatch(portfolio.addPortfolio(portName, saveAs, tdCode, tdAccNum))
+    dispatch(portfolio.addPortfolio(portName, saveAs, tdCode, tdAccNum, rhRefreshTok))
   }
 
   if (redirect) {
@@ -88,19 +89,27 @@ function AddPortfolios() {
                       />
 
               </div>}
-
               <div>
                 <FormControlLabel
                   control={
                     <Checkbox color={"primary"}
                               checked={saveAs=== "rh"}
                               onChange={() => {setSaveAs(saveAs === "rh" ? "paper" : "rh")}}
-                              disabled={true}
                     />
                   }
                   label={"Save as RH Portfolio"}
                 />
               </div>
+            {saveAs==="rh" && <div>
+                <TextField
+                    label="RH Refresh Token"
+                    margin={"normal"}
+                    variant={"outlined"}
+                    onChange={e => setRhRefreshTok(e.target.value)}
+                    value={rhRefreshTok}
+                />
+                <br />
+            </div>}
               <div style={{position: 'relative', display: 'inline-block'}}>
                 <BdcPrimaryButton
                   type={"submit"}

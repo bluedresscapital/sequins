@@ -4,10 +4,11 @@ import * as coattails from '../util/coattails';
 export const SEARCHING_QUOTE = 'SEARCHING_QUOTE';
 export const SEARCHED_QUOTE = 'SEARCHED_QUOTE';
 
-export function searchQuote(stock) {
+export function searchQuote(stock, start, end) {
   return dispatch => {
     dispatch({ type: SEARCHING_QUOTE})
     const succCb = quotes => dispatch({ type: SEARCHED_QUOTE, payload: quotes})
-    return coattails.get("/auth/positions", {}, succCb)
+    const url = "/stock/quote/" + stock + "?start=" + start + "&end=" + end
+    return coattails.get(url, {}, succCb)
   }
 }

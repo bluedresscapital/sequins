@@ -19,6 +19,7 @@ const initialState = {
   err_adding_port: false,
   redirect: false,
   port_histories: {},
+  comparison: []
 }
 
 export default function portfolio(state=initialState, action) {
@@ -36,7 +37,7 @@ export default function portfolio(state=initialState, action) {
     case LOADED_PORTS:
       return {...state, loading: false, portfolios: action.portfolios}
     case LOADED_PORT_HISTORIES:
-      return {...state, port_histories: action.payload}
+      return {...state, port_histories: action.payload, comparison: action.comparison}
     case RESET_REDIRECT:
       return {...state, redirect: false}
     case SELECT_PORT:

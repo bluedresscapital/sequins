@@ -14,6 +14,28 @@ interface DashboardState {
   portfolio: any
 }
 
+// Assume comparison is a superset of portHistory
+function backfillData(comparison, portHistory) {
+  console.log(portHistory)
+  let portHash = {}
+  portHistory.forEach(({ cum_change, date }) => {
+    portHash[date] = (cum_change - 1) * 100
+  })
+  let data: any[] = []
+  let currChange = 0
+  comparison.forEach(({ Date }) => {
+    let portVal = portHash[Date]
+    if (portVal !== undefined) {
+      currChange = portVal
+    }
+    data.push({
+      "x": Date,
+      "y": currChange
+    })
+  })
+  return data
+}
+
 export default function Dashboard() {
   const dispatch = useDispatch();
   React.useEffect(() => {
@@ -24,14 +46,25 @@ export default function Dashboard() {
 
   const portfolios = useSelector((state: DashboardState) => state.portfolio.portfolios)
   const portHistories = useSelector((state: DashboardState) => state.portfolio.port_histories)
-  const data: any[] = [];
+  const comparison = useSelector((state: DashboardState) => state.portfolio.comparison)
+  let comparisonData = [];
+  if (comparison.length > 0) {
+    const initPrice = parseFloat(comparison[0].Price)
+    comparisonData = comparison.map(({Date, Price}) => ({
+      "x": Date,
+      "y": ((parseFloat(Price) / initPrice) - 1) * 100,
+    }))
+  }
+  const comparisonSeries = {
+    "name": "SPY",
+    "data": comparisonData
+  }
+  const data: any[] = [comparisonSeries];
   for (const portId in portHistories) {
     const series = {
-      "name": portfolios.find(p => parseInt(p.id) === parseInt(portId)).name,
-      "data": portHistories[portId].map(({date, cum_change}) => ({
-        "x": date,
-        "y": (cum_change - 1) * 100,
-      }))
+      "name": (portfolios.find(p => parseInt(p.id) === parseInt(portId)) || {"name": "n/a"}).name,
+      // Assume comparison history has the superset of all dates in our port histories
+      "data": backfillData(comparison, portHistories[portId])
     };
     data.push(series)
   }

@@ -31,13 +31,17 @@ export function selectPort(id) {
   }
 }
 
-export function addPortfolio(name, type, tdCode, tdAccNum) {
+export function addPortfolio(name, type, tdCode, tdAccNum, rhRefreshTok) {
   return dispatch => {
     dispatch({type: ADDING_PORT})
     if (type==='tda') {
       let body = JSON.stringify({name, code: tdCode, account_num: tdAccNum})
-      const succCb = portfolios => dispatch({ type: ADDED_PORT, portfolios })
+      const succCb = portfolios => dispatch({type: ADDED_PORT, portfolios})
       return coattails.post("/auth/tda/portfolio/create", {body}, succCb)
+    } else if (type==='rh') {
+      let body = JSON.stringify({name, refresh_token: rhRefreshTok})
+      const succCb = portfolios => dispatch({type: ADDED_PORT, portfolios})
+      return coattails.post("/auth/rh/portfolio/create", {body}, succCb)
     } else {
       let body = JSON.stringify({name, type});
       const succCb = portfolios => dispatch({ type: ADDED_PORT, portfolios })
@@ -53,7 +57,38 @@ export function addPortfolio(name, type, tdCode, tdAccNum) {
 export function loadPortHistories() {
   return dispatch => {
     dispatch({ type: LOADING_PORT_HISTORIES })
-    const succCb = histories => dispatch({ type: LOADED_PORT_HISTORIES, payload: histories })
+    const succCb = histories => {
+      let start = null
+      let end = null
+      for (let portId in histories) {
+        const history  = histories[portId]
+        if (history.length === 0) {
+          continue
+        }
+        if (start == null || history[0].date < start) {
+          start = history[0].date.split("T")[0]
+        }
+        if (end == null || history[history.length - 1].date > end) {
+          end = history[history.length - 1].date.split("T")[0]
+        }
+      }
+      const url = "/stock/quote/SPY?start="  + start + "&end=" + end
+      const stockSuccCb = quotes => {
+        dispatch({ type: LOADED_PORT_HISTORIES, payload: histories, comparison: quotes })
+      }
+      return coattails.get(url, {}, stockSuccCb)
+    }
     return coattails.get("/auth/portfolio/history", {}, succCb)
   }
 }
+//
+// export function loadComparativeStockHistory(stock, start, end) {
+//   return dispatch => {
+//     const succCb = quotes => {
+//       console.log(quotes)
+//     }
+//     const url =
+//     return
+//   }
+//
+// }

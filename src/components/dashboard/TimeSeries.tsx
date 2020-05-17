@@ -1,6 +1,7 @@
 import React from 'react';
 // import {DARKER_BLUE, DARKEST_BLUE, LIGHTER_BLUE, LIGHTEST_BLUE, PRIMARY_BLUE} from "../../Theme";
 import ReactApexChart from "react-apexcharts";
+import {DARKER_BLUE, DARKEST_BLUE, LIGHTER_BLUE, LIGHTEST_BLUE, PRIMARY_BLUE} from "../../Theme";
 
 
 interface TimeSeriesProps {
@@ -18,8 +19,9 @@ export default function TimeSeries(props: TimeSeriesProps) {
         height: 350,
         zoom: {
           autoScaleYaxis: true
-        }
+        },
       },
+      colors: [DARKEST_BLUE, LIGHTEST_BLUE, DARKER_BLUE, LIGHTER_BLUE, PRIMARY_BLUE],
       title: {
         text: props.title,
         align: "left",
@@ -40,7 +42,7 @@ export default function TimeSeries(props: TimeSeriesProps) {
       },
       yaxis: {
         labels: {
-          formatter: value => value.toFixed(2) + "%"
+          formatter: value => (value || 0.00).toFixed(2) + "%"
         }
       },
       tooltip: {
