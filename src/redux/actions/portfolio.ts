@@ -31,7 +31,7 @@ export function selectPort(id) {
   }
 }
 
-export function addPortfolio(name, type, tdCode, tdAccNum, rhRefreshTok) {
+export function addPortfolio(name, type, tdCode, tdAccNum, rhUsername, rhPassword, rhDeviceToken) {
   return dispatch => {
     dispatch({type: ADDING_PORT})
     if (type==='tda') {
@@ -39,7 +39,7 @@ export function addPortfolio(name, type, tdCode, tdAccNum, rhRefreshTok) {
       const succCb = portfolios => dispatch({type: ADDED_PORT, portfolios})
       return coattails.post("/auth/tda/portfolio/create", {body}, succCb)
     } else if (type==='rh') {
-      let body = JSON.stringify({name, refresh_token: rhRefreshTok})
+      let body = JSON.stringify({name, username: rhUsername, password: rhPassword, device_token: rhDeviceToken})
       const succCb = portfolios => dispatch({type: ADDED_PORT, portfolios})
       return coattails.post("/auth/rh/portfolio/create", {body}, succCb)
     } else {
@@ -81,14 +81,3 @@ export function loadPortHistories() {
     return coattails.get("/auth/portfolio/history", {}, succCb)
   }
 }
-//
-// export function loadComparativeStockHistory(stock, start, end) {
-//   return dispatch => {
-//     const succCb = quotes => {
-//       console.log(quotes)
-//     }
-//     const url =
-//     return
-//   }
-//
-// }

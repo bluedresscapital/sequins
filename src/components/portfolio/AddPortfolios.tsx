@@ -16,9 +16,13 @@ interface AddPortfoliosState {
 function AddPortfolios() {
   const [saveAs, setSaveAs] = React.useState("paper")
   const [portName, setPortName] = React.useState("")
+  // TD Stuff
   const [tdCode, setTDCode] = React.useState("")
   const [tdAccNum, setTDAccNum] = React.useState("")
-  const [rhRefreshTok, setRhRefreshTok] = React.useState("")
+  // RH Stuff
+  const [rhUsername, setRhUsername] = React.useState("")
+  const [rhPassword, setRhPassword] = React.useState("")
+  const [rhDeviceTok, setRhDeviceTok] = React.useState("")
 
   const savingPort = useSelector((state: AddPortfoliosState) => state.portfolio.adding_port)
   const errAddingPort = useSelector((state: AddPortfoliosState) => state.portfolio.err_adding_port)
@@ -27,7 +31,7 @@ function AddPortfolios() {
   const dispatch = useDispatch();
   const savePortfolio = e => {
     e.preventDefault();
-    dispatch(portfolio.addPortfolio(portName, saveAs, tdCode, tdAccNum, rhRefreshTok))
+    dispatch(portfolio.addPortfolio(portName, saveAs, tdCode, tdAccNum, rhUsername, rhPassword, rhDeviceTok))
   }
 
   if (redirect) {
@@ -102,11 +106,28 @@ function AddPortfolios() {
               </div>
             {saveAs==="rh" && <div>
                 <TextField
-                    label="RH Refresh Token"
+                    label="RH Username"
                     margin={"normal"}
                     variant={"outlined"}
-                    onChange={e => setRhRefreshTok(e.target.value)}
-                    value={rhRefreshTok}
+                    onChange={e => setRhUsername(e.target.value)}
+                    value={rhUsername}
+                />
+                <br />
+                <TextField
+                    label="RH Password"
+                    type={"password"}
+                    margin={"normal"}
+                    variant={"outlined"}
+                    onChange={e => setRhPassword(e.target.value)}
+                    value={rhPassword}
+                />
+                <br />
+                <TextField
+                    label="RH Device Token"
+                    margin={"normal"}
+                    variant={"outlined"}
+                    onChange={e => setRhDeviceTok(e.target.value)}
+                    value={rhDeviceTok}
                 />
                 <br />
             </div>}
