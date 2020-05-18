@@ -16,7 +16,6 @@ interface DashboardState {
 
 // Assume comparison is a superset of portHistory
 function backfillData(comparison, portHistory) {
-  console.log(portHistory)
   let portHash = {}
   portHistory.forEach(({ cum_change, date }) => {
     portHash[date] = (cum_change - 1) * 100

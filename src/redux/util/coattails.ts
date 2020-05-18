@@ -1,4 +1,5 @@
 const COATTAILS_HOSTNAME = process.env.REACT_APP_COATTAILS_HOSTNAME
+const PROD = process.env.NODE_ENV === "production"
 
 export function post(endpoint: string, initPayload: object, succCb, errCb?) {
   if (!errCb) {
@@ -23,7 +24,8 @@ export function get(endpoint, initPayload, succCb, errCb?) {
 }
 
 function fetchWrapper(endpoint, init, succCb, errCb) {
-  return fetch("http://" + COATTAILS_HOSTNAME + endpoint, init)
+  const urlPrefix = PROD ? "https://" : "http://"
+  return fetch(urlPrefix + COATTAILS_HOSTNAME + endpoint, init)
     .then(res => {
       if (res.status === 200) {
         return res.json()
@@ -40,7 +42,8 @@ function fetchWrapper(endpoint, init, succCb, errCb) {
 let socket;
 
 export function dialSock(onopenCb: any, onmsgCb: any) {
-  socket = new WebSocket("ws://" + COATTAILS_HOSTNAME + "/auth/websocket")
+  const urlPrefix = PROD ? "wss://" : "ws://"
+  socket = new WebSocket(urlPrefix + COATTAILS_HOSTNAME + "/auth/websocket")
   socket.onopen = onopenCb
   socket.onmessage = e => onmsgCb(e.data)
 }

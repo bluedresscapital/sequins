@@ -1,7 +1,7 @@
 FROM arm64v8/node:10-alpine as build-deps
 WORKDIR /usr/src/app
 COPY package.json yarn.lock ./
-RUN yarn
+RUN yarn install --network-timeout 300000 # 5 minute timeout
 COPY . ./
 RUN yarn build
 
