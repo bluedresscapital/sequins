@@ -2,9 +2,11 @@ import React from 'react';
 // import {DARKER_BLUE, DARKEST_BLUE, LIGHTER_BLUE, LIGHTEST_BLUE, PRIMARY_BLUE} from "../../Theme";
 import ReactApexChart from "react-apexcharts";
 import {DARKER_BLUE, DARKEST_BLUE, LIGHTER_BLUE, LIGHTEST_BLUE, PRIMARY_BLUE} from "../../Theme";
+import {CircularProgress} from '@material-ui/core';
 
 
 interface TimeSeriesProps {
+  loading: boolean
   title: string
   data: any
 }
@@ -65,7 +67,10 @@ export default function TimeSeries(props: TimeSeriesProps) {
 
   return (
     <div>
-      <div >
+      <div>
+        {props.loading && <div style={{position: "absolute", top: "50%", left: "50%"}}>
+          <CircularProgress />
+        </div>}
         <ReactApexChart options={state.options} series={state.series} type="area" height={350} />
       </div>
     </div>

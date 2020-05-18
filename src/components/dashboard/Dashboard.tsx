@@ -75,6 +75,7 @@ export default function Dashboard() {
             <Card>
               <CardContent>
                 <TimeSeries
+                  loading={comparison.length === 0}
                   title={"Portfolio Performance"}
                   data={data}
                 />
