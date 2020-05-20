@@ -32,7 +32,7 @@ export default function BdcUnauthorizedContainer(props) {
           </Typography>
         </Toolbar>
       </AppBar>
-      <div>
+      <div style={{paddingTop: "64px"}}>
         {props.children}
       </div>
     </div>
