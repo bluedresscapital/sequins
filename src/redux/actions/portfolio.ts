@@ -10,12 +10,20 @@ export const ERR_ADDING_PORT = 'ERR_ADDING_PORT';
 export const RESET_REDIRECT = 'RESET_REDIRECT;'
 export const LOADING_PORT_HISTORIES = 'LOADING_PORT_HISTORIES';
 export const LOADED_PORT_HISTORIES = 'LOADED_PORT_HISTORIES';
+export const RELOAD_CURRENT_PORT_VALUES = 'RELOAD_CURRENT_PORT_VALUES';
 
 export function loadPortfolios() {
   return dispatch => {
     dispatch({ type: LOADING_PORTS })
     const succCb = portfolios => dispatch({ type: LOADED_PORTS, portfolios })
     return coattails.get("/auth/portfolio", {}, succCb)
+  }
+}
+
+export function loadPortfolioValues() {
+  return dispatch => {
+    const succCb = payload => dispatch({ type: RELOAD_CURRENT_PORT_VALUES, payload })
+    return coattails.get("/auth/portfolio/values", {}, succCb)
   }
 }
 

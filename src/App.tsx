@@ -27,9 +27,9 @@ export default function App() {
   return (
     <main>
       <Switch>
-        <Route path={"/"} component={Landing} exact />
+        <Route path={"/"} component={Dashboard} exact />
         <Route path={"/account"} component={Brokerages} exact />
-        <Route path={"/dashboard"} component={Dashboard} exact />
+        <Route path={"/explore"} component={Landing} exact />
         <Route path={"/portfolios/view"} component={ViewPortfoliosContainer} exact />
         <Route path={"/portfolios/add"} component={AddPortfolios} exact />
         <Route path={"/login"} component={Login} exact />

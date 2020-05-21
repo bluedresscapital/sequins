@@ -9,6 +9,7 @@ import {
 } from '@material-ui/core';
 import {portfolio} from '../../redux/actions';
 import {useDispatch, useSelector} from "react-redux";
+import AccountValues from "./AccountValues";
 
 interface DashboardState {
   portfolio: any
@@ -40,12 +41,15 @@ export default function Dashboard() {
   React.useEffect(() => {
     dispatch(portfolio.loadPortfolios())
     dispatch(portfolio.loadPortHistories())
+    dispatch(portfolio.loadPortfolioValues())
     // eslint-disable-next-line
   }, [])
 
   const portfolios = useSelector((state: DashboardState) => state.portfolio.portfolios)
   const portHistories = useSelector((state: DashboardState) => state.portfolio.port_histories)
   const comparison = useSelector((state: DashboardState) => state.portfolio.comparison)
+  const portValues = useSelector((state: DashboardState) => state.portfolio.port_values)
+
   let comparisonData = [];
   if (comparison.length > 0) {
     const initPrice = parseFloat(comparison[0].Price)
@@ -71,6 +75,9 @@ export default function Dashboard() {
     <BdcContainer title={"Dashboard"}>
       <div style={{padding: "32px"}}>
         <Grid container spacing={3}>
+          <Grid item xs={12} sm={12} md={12} lg={6}>
+            <AccountValues portfolios={portfolios} port_values={portValues}/>
+          </Grid>
           <Grid item xs={12} sm={12} md={6} lg={6}>
             <Card>
               <CardContent>
