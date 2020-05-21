@@ -42,7 +42,7 @@ export default function AccountValues(props: AccountValuesProps) {
           </Grid>
           <Grid item xs={3}>
             <Typography variant={"h6"}>
-              Total account value
+              Account value
             </Typography>
           </Grid>
           <Grid item xs={3}>

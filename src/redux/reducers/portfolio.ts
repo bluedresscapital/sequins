@@ -39,9 +39,10 @@ export default function portfolio(state=initialState, action) {
     case LOADED_PORTS:
       return {...state, loading: false, portfolios: action.portfolios}
     case RELOAD_CURRENT_PORT_VALUES:
-      let port_values = state.port_values
-      let new_port_values = Object.assign(action.payload, port_values)
-      return {...state, port_values: new_port_values}
+      Object.keys(action.payload).forEach(k => {
+        state = {...state, port_values: { ...state.port_values, [k]: action.payload[k] }}
+      })
+      return state
     case LOADED_PORT_HISTORIES:
       return {...state, port_histories: action.payload, comparison: action.comparison}
     case RESET_REDIRECT:

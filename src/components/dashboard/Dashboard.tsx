@@ -75,10 +75,10 @@ export default function Dashboard() {
     <BdcContainer title={"Dashboard"}>
       <div style={{padding: "32px"}}>
         <Grid container spacing={3}>
-          <Grid item xs={12} sm={12} md={12} lg={6}>
+          <Grid item xs={12} sm={12} md={12} lg={7} xl={6}>
             <AccountValues portfolios={portfolios} port_values={portValues}/>
           </Grid>
-          <Grid item xs={12} sm={12} md={6} lg={6}>
+          <Grid item xs={12} sm={12} md={6} lg={5} xl={6}>
             <Card>
               <CardContent>
                 <TimeSeries
