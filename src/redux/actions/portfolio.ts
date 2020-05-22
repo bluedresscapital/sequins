@@ -10,7 +10,9 @@ export const ERR_ADDING_PORT = 'ERR_ADDING_PORT';
 export const RESET_REDIRECT = 'RESET_REDIRECT;'
 export const LOADING_PORT_HISTORIES = 'LOADING_PORT_HISTORIES';
 export const LOADED_PORT_HISTORIES = 'LOADED_PORT_HISTORIES';
+export const LOADED_PORT_COMPARISON = 'LOADED_PORT_COMPARISON';
 export const RELOAD_CURRENT_PORT_VALUES = 'RELOAD_CURRENT_PORT_VALUES';
+export const RELOAD_DAILY_PORT_VALUES = 'RELOAD_DAILY_PORT_VALUES';
 
 export function loadPortfolios() {
   return dispatch => {
@@ -24,6 +26,13 @@ export function loadPortfolioValues() {
   return dispatch => {
     const succCb = payload => dispatch({ type: RELOAD_CURRENT_PORT_VALUES, payload })
     return coattails.get("/auth/portfolio/values", {}, succCb)
+  }
+}
+
+export function loadDailyPortValues() {
+  return dispatch => {
+    const succCb = payload => dispatch({ type: RELOAD_DAILY_PORT_VALUES, payload })
+    return coattails.get("/auth/portfolio/daily_values", {}, succCb)
   }
 }
 
@@ -62,10 +71,19 @@ export function addPortfolio(name, type, tdCode, tdAccNum, rhUsername, rhPasswor
   }
 }
 
+export function updateTDPortfolio(portId, name, code, accNum) {
+  return dispatch => {
+    const succCb = portfolios => console.log("success!", portfolios)
+    let body = JSON.stringify({port_id: portId, name, code: code, account_num: accNum})
+    return coattails.post("/auth/tda/portfolio/update", {body}, succCb)
+  }
+}
+
 export function loadPortHistories() {
   return dispatch => {
     dispatch({ type: LOADING_PORT_HISTORIES })
     const succCb = histories => {
+      dispatch({ type: LOADED_PORT_HISTORIES, payload: histories })
       let start = null
       let end = null
       for (let portId in histories) {
@@ -82,7 +100,7 @@ export function loadPortHistories() {
       }
       const url = "/stock/quote/SPY?start="  + start + "&end=" + end
       const stockSuccCb = quotes => {
-        dispatch({ type: LOADED_PORT_HISTORIES, payload: histories, comparison: quotes })
+        dispatch({ type: LOADED_PORT_COMPARISON, comparison: quotes })
       }
       return coattails.get(url, {}, stockSuccCb)
     }
