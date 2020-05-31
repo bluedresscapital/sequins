@@ -22,6 +22,7 @@ export default function TimeSeries(props: TimeSeriesProps) {
         type: 'area',
         height: 350,
         zoom: {
+          enabled: false,
           autoScaleYaxis: true
         },
       },

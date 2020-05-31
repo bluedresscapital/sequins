@@ -13,6 +13,7 @@ export const LOADED_PORT_HISTORIES = 'LOADED_PORT_HISTORIES';
 export const LOADED_PORT_COMPARISON = 'LOADED_PORT_COMPARISON';
 export const RELOAD_CURRENT_PORT_VALUES = 'RELOAD_CURRENT_PORT_VALUES';
 export const RELOAD_DAILY_PORT_VALUES = 'RELOAD_DAILY_PORT_VALUES';
+export const LOADED_FEATURED_PORTS = 'LOADED_FEATURED_PORTS';
 
 export function loadPortfolios() {
   return dispatch => {
@@ -33,6 +34,19 @@ export function loadDailyPortValues() {
   return dispatch => {
     const succCb = payload => dispatch({ type: RELOAD_DAILY_PORT_VALUES, payload })
     return coattails.get("/auth/portfolio/daily_values", {}, succCb)
+  }
+}
+
+export function loadFeaturedPortfolios() {
+  return dispatch => {
+    window.setTimeout(() => {
+      const payload = [
+        { id: 1, name: "$BECKY", tags: ["TECH", "RETAIL"], growth: 1.3 },
+        { id: 2, name: "HW BIOFUND", tags: ["BIO", "TECH", "FINANCE"], growth: 1.4 },
+        { id: 3, name: "$CHAD", tags: ["FITNESS", "RETAIL", "FINANCE"], growth: 0.7 },
+        ]
+      dispatch({ type: LOADED_FEATURED_PORTS, payload })
+    }, 500)
   }
 }
 

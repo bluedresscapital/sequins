@@ -84,8 +84,8 @@ export default function AccountValues(props: AccountValuesProps) {
                 <Grid item xs={12}>
                   <Divider />
                 </Grid>
-                <Grid item xs={3}>
-                  <Typography variant={"subtitle1"}>
+                <Grid item xs={3} style={{paddingLeft: "12px"}}>
+                  <Typography variant={"h6"}>
                     {name}
                   </Typography>
                 </Grid>

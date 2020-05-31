@@ -4,16 +4,17 @@ import './App.css';
 import Brokerages from "./components/Brokerages";
 import Dashboard from "./components/dashboard/Dashboard";
 import Example from "./components/Example";
-import Landing from "./components/Landing";
 import Login from "./components/auth/Login";
 import NotFound from "./components/NotFound";
 import Profile from "./components/Profile";
 import Register from "./components/auth/Register";
+import Explore from "./components/explore/Explore";
 
 import {auth} from "./redux/actions";
 import { useDispatch } from "react-redux";
 import AddPortfolios from "./components/portfolio/AddPortfolios";
 import ViewPortfoliosContainer from "./components/portfolio/ViewPortfoliosContainer";
+import ExplorePortfolio from "./components/explore/ExplorePortfolio";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -29,7 +30,8 @@ export default function App() {
       <Switch>
         <Route path={"/"} component={Dashboard} exact />
         <Route path={"/account"} component={Brokerages} exact />
-        <Route path={"/explore"} component={Landing} exact />
+        <Route path={"/explore"} component={Explore} exact />
+        <Route path={"/explore/portfolio/:id(\\d+)"} component={ExplorePortfolio} exact />
         <Route path={"/portfolios/view"} component={ViewPortfoliosContainer} exact />
         <Route path={"/portfolios/add"} component={AddPortfolios} exact />
         <Route path={"/login"} component={Login} exact />
