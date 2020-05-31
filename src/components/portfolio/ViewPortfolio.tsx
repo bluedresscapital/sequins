@@ -4,6 +4,7 @@ import {Grid} from '@material-ui/core';
 import TransfersTable from "./TransfersTable";
 import OrdersTable from "./OrdersTable";
 import PositionsTable from "./PositionsTable";
+import UpdatePortfolio from "./UpdatePortfolio";
 
 interface ViewPortfoliosState {
   portfolio: any,
@@ -13,6 +14,7 @@ interface ViewPortfoliosState {
 }
 
 export default function ViewPortfolio() {
+  const portfolios = useSelector((state: ViewPortfoliosState) => state.portfolio.portfolios)
   const selectedPort = useSelector((state: ViewPortfoliosState) => state.portfolio.selected_port)
   const transfers = useSelector((state: ViewPortfoliosState) => state.transfer.transfers)
   const orders = useSelector((state: ViewPortfoliosState) => state.order.orders)
@@ -20,6 +22,8 @@ export default function ViewPortfolio() {
   let filtered_transfers = transfers.filter(({ port_id }) => selectedPort===-1 || port_id === selectedPort)
   let filtered_orders = orders.filter(({ port_id }) => selectedPort===-1 || port_id === selectedPort)
   let filtered_positions = positions.filter(({ port_id }) => selectedPort===-1 || port_id===selectedPort)
+  let port = portfolios.find(({id}) => id===selectedPort) || { type: "web", name: "n/a" }
+
   return (
     <div style={{padding: "32px"}}>
       <Grid container spacing={4}>
@@ -33,7 +37,11 @@ export default function ViewPortfolio() {
           <OrdersTable orders={filtered_orders} />
         </Grid>
       </Grid>
-      SelectedPort: {selectedPort}
+      {selectedPort !== -1 && port.type === "tda" && <div>
+          SelectedPort: {selectedPort}
+          <UpdatePortfolio />
+      </div>}
+
     </div>
   )
 }

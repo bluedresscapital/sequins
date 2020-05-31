@@ -9,6 +9,8 @@ interface TimeSeriesProps {
   loading: boolean
   title: string
   data: any
+  yAxisFormatter: any
+  tooltipFormat: any
 }
 
 export default function TimeSeries(props: TimeSeriesProps) {
@@ -20,6 +22,7 @@ export default function TimeSeries(props: TimeSeriesProps) {
         type: 'area',
         height: 350,
         zoom: {
+          enabled: false,
           autoScaleYaxis: true
         },
       },
@@ -44,12 +47,12 @@ export default function TimeSeries(props: TimeSeriesProps) {
       },
       yaxis: {
         labels: {
-          formatter: value => (value || 0.00).toFixed(2) + "%"
+          formatter: props.yAxisFormatter
         }
       },
       tooltip: {
         x: {
-          format: 'dd MMM yyyy'
+          format: props.tooltipFormat
         }
       },
       fill: {
@@ -68,7 +71,7 @@ export default function TimeSeries(props: TimeSeriesProps) {
   return (
     <div>
       <div>
-        {props.loading && <div style={{position: "absolute", top: "50%", left: "50%"}}>
+        {props.loading && <div style={{position: "absolute", top: "45%", left: "50%", zIndex: 99}}>
           <CircularProgress />
         </div>}
         <ReactApexChart options={state.options} series={state.series} type="area" height={350} />

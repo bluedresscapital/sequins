@@ -5,3 +5,5 @@ export const PRIMARY_BLUE = "#006DA4";
 export const LIGHTER_BLUE = "#0582ca"
 export const LIGHTEST_BLUE ="#58CCED";
 export const HINT_OF_BLUE="#f4f5fd";
+export const GREEN = "#0f9d58";
+export const RED = "#d23f31";

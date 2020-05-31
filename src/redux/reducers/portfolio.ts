@@ -8,6 +8,10 @@ import {
   SELECT_PORT,
   RESET_REDIRECT,
   LOADED_PORT_HISTORIES,
+  LOADED_PORT_COMPARISON,
+  RELOAD_CURRENT_PORT_VALUES,
+  RELOAD_DAILY_PORT_VALUES,
+  LOADED_FEATURED_PORTS,
 } from "../actions/portfolio";
 import {LOGGED_OUT} from "../actions/auth";
 
@@ -19,7 +23,10 @@ const initialState = {
   err_adding_port: false,
   redirect: false,
   port_histories: {},
-  comparison: []
+  comparison: [],
+  port_values: {},
+  daily_port_values: {},
+  featured_ports: []
 }
 
 export default function portfolio(state=initialState, action) {
@@ -36,12 +43,23 @@ export default function portfolio(state=initialState, action) {
       return {...state, loading: true }
     case LOADED_PORTS:
       return {...state, loading: false, portfolios: action.portfolios}
+    case RELOAD_CURRENT_PORT_VALUES:
+      Object.keys(action.payload).forEach(k => {
+        state = {...state, port_values: { ...state.port_values, [k]: action.payload[k] }}
+      })
+      return state
     case LOADED_PORT_HISTORIES:
-      return {...state, port_histories: action.payload, comparison: action.comparison}
+      return {...state, port_histories: action.payload }
+    case LOADED_PORT_COMPARISON:
+      return {...state, comparison: action.comparison}
+    case RELOAD_DAILY_PORT_VALUES:
+      return {...state, daily_port_values: action.payload}
     case RESET_REDIRECT:
       return {...state, redirect: false}
     case SELECT_PORT:
       return {...state, selected_port: action.id }
+    case LOADED_FEATURED_PORTS:
+      return {...state, featured_ports: action.payload}
     case LOGGED_OUT:
       return initialState
     default:
